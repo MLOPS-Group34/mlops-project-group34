@@ -1,5 +1,5 @@
-from forestfires_project.model import Model
-from forestfires_project.data import MyDataset
+from model import Model
+from data import MyDataset
 
 def train():
     dataset = MyDataset("data/raw")
