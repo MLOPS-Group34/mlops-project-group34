@@ -2,7 +2,7 @@ from model import Model
 from data import MyDataset
 
 def train():
-    dataset = MyDataset("data/raw")
+    dataset = MyDataset("src/data/raw")
     model = Model()
     # add rest of your training code here
 
