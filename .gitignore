@@ -181,7 +181,9 @@ cython_debug/
 data/raw/*
 data/raw/test/*
 data/raw/train/*
-data/processed/test/*
-data/processed/train/*
-
+data/processed/test/images/*.jpg
+data/processed/test/labels/*.txt
+data/processed/train/images/*.jpg
+data/processed/train/labels/*.txt
 !data/samples/*
+
