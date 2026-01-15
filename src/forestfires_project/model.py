@@ -22,6 +22,7 @@ class ForestFireYOLO:
         print("Starting training...")
         # Ultralytics YOLO has built-in wandb integration
         # It will automatically log metrics when wandb is initialized
+        # Set device to allow YOLO to use available GPU/CPU
         results = self.model.train(
             data=data_yaml_path,
             epochs=hp['epochs'],
@@ -41,13 +42,20 @@ class ForestFireYOLO:
         
         # Log final training metrics to wandb
         if results:
+            # Extract key metrics from results
+            results_dict = results.results_dict
+            
             final_metrics = {
-                'final/mAP50': results.results_dict.get('metrics/mAP50(B)', 0),
-                'final/mAP50-95': results.results_dict.get('metrics/mAP50-95(B)', 0),
-                'final/precision': results.results_dict.get('metrics/precision(B)', 0),
-                'final/recall': results.results_dict.get('metrics/recall(B)', 0),
+                'final/mAP50': results_dict.get('metrics/mAP50(B)', 0),
+                'final/mAP50-95': results_dict.get('metrics/mAP50-95(B)', 0),
+                'final/precision': results_dict.get('metrics/precision(B)', 0),
+                'final/recall': results_dict.get('metrics/recall(B)', 0),
+                'final/box_loss': results_dict.get('train/box_loss', 0),
+                'final/cls_loss': results_dict.get('train/cls_loss', 0),
             }
             wandb.log(final_metrics)
+            
+            print("Training metrics logged to wandb:")
         
         print("Training completed.")
         return results

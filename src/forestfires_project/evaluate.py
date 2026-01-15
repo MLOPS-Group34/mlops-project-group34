@@ -33,7 +33,8 @@ def run_evaluation(config_path="configs/config.yaml", model_path=None, use_wandb
             project=config['wandb_project'],
             name=f"{config['project_name']}_evaluation",
             config=config,
-            job_type="evaluation"
+            job_type="evaluation",
+            settings=wandb.Settings(system_sample_rate=0)  # Disable system metrics logging
         )
 
     # Initialize and Load
