@@ -1,0 +1,13 @@
+coverage==7.3.3
+fastapi==0.115.6
+uvicorn==0.34.0
+torch
+transformers
+Pillow
+opencv-python
+scikit-learn>=1.0
+python-multipart
+httpx>=0.28.1
+functions-framework>=3.10.0
+gcloud>=0.18.3
+locust>=2.43.1
