@@ -184,4 +184,8 @@ data/processed/val/
 !data/processed/train/.gitkeep
 !data/processed/val/.gitkeep
 !data/samples/
+data/
 
+
+# But DO NOT ignore the DVC metadata files
+!data.dvc
