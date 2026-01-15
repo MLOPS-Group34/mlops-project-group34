@@ -1,0 +1,4 @@
+Hello! This is a test file containing some sample text data.
+It is used to demonstrate file reading and writing operations in various programming languages.
+Feel free to modify the content as needed for your tests.
+Have a great day!
