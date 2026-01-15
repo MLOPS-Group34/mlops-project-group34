@@ -117,7 +117,7 @@ def create_yolo_yaml(config, config_path):
         test_samples = sampling_config.get('test_samples')
         test_files = sample_dataset(test_img_dir, test_lbl_dir, test_samples, random_seed)
         
-        # Create .txt files with absolute paths for YOLO
+        # Sample data and create .txt files with image paths for YOLO
         train_txt = os.path.join(root, "train_sampled.txt")
         val_txt = os.path.join(root, "val_sampled.txt")
         test_txt = os.path.join(root, "test_sampled.txt")
@@ -134,9 +134,9 @@ def create_yolo_yaml(config, config_path):
             for fname in test_files:
                 f.write(os.path.join(test_img_dir, f"{fname}.jpg") + '\n')
         
-        print(f"Created sample lists: {train_txt}, {val_txt}, {test_txt}")
+        print(f"Data sampling applied - using sampled image lists")
         
-        # YOLO expects paths relative to 'path' or absolute paths in .txt files
+        # YOLO uses the txt files containing sampled image paths
         data_yaml = {
             'path': root,
             'train': os.path.basename(train_txt),

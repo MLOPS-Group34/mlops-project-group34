@@ -1,0 +1,88 @@
+_wandb:
+    value:
+        cli_version: 0.24.0
+        e:
+            lh0yh2c5mjgt2hcf0acij2agg9y6yscv:
+                args:
+                    - --pipeline
+                    - all
+                    - --config
+                    - configs/config.yaml
+                codePath: main.py
+                codePathLocal: main.py
+                cpu_count: 4
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "1022481469440"
+                        used: "931364552704"
+                email: s214374@dtu.dk
+                executable: C:\Users\45422\Desktop\MLOps\mlops-project-group34\.venv\Scripts\python.exe
+                git:
+                    commit: 29b5fee6a0bc295f5d3423ff5dd0549e5414ebf4
+                    remote: https://github.com/MLOPS-Group34/mlops-project-group34.git
+                host: Venus
+                memory:
+                    total: "16906358784"
+                os: Windows-10-10.0.26200-SP0
+                program: C:\Users\45422\Desktop\MLOps\mlops-project-group34\main.py
+                python: CPython 3.11.5
+                root: C:\Users\45422\Desktop\MLOps\mlops-project-group34
+                startedAt: "2026-01-15T11:01:40.014530Z"
+                writerId: lh0yh2c5mjgt2hcf0acij2agg9y6yscv
+        m: []
+        python_version: 3.11.5
+        t:
+            "1":
+                - 1
+                - 41
+                - 105
+            "2":
+                - 1
+                - 41
+                - 105
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.11.5
+            "5": 0.24.0
+            "8":
+                - 2
+                - 3
+            "12": 0.24.0
+            "13": windows-amd64
+data_sampling:
+    value:
+        enabled: true
+        random_seed: 42
+        test_samples: 50
+        train_samples: 500
+        val_samples: 100
+hyperparameters:
+    value:
+        batch_size: 32
+        classes:
+            "0": fire
+            "1": smoke
+        epochs: 5
+        img_size: 640
+        lr: 0.01
+        model_type: yolov8n.pt
+paths:
+    value:
+        logs_dir: logs
+        models_dir: models
+        reports_dir: reports/figures
+        root_dir: ../
+        test_images: data/processed/test/images
+        test_labels: data/processed/test/labels
+        train_images: data/processed/train/images
+        train_labels: data/processed/train/labels
+        val_images: data/processed/val/images
+        val_labels: data/processed/val/labels
+        yolo_yaml: data.yaml
+project_name:
+    value: forest_fire_detection
+wandb_project:
+    value: mlops_project_group34

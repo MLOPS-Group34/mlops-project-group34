@@ -72,33 +72,47 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
                 'num_detections': len(pred_boxes)
             })
     
-    # Sort by average confidence and get top 6
+    # Sort by average confidence and get top 24 (4 grids of 6)
     all_results.sort(key=lambda x: x['avg_conf'], reverse=True)
-    top_6 = all_results[:6]
+    top_24 = all_results[:24]
     
-    conf_scores = [f"{r['avg_conf']:.3f}" for r in top_6]
-    print(f"Selected top 6 images with confidence scores: {conf_scores}")
+    conf_scores = [f"{r['avg_conf']:.3f}" for r in top_24]
+    print(f"Selected top 24 images with confidence scores: {conf_scores}")
 
-    # Plotting
-    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
-    axes = axes.flatten()
-
-    for i, result_data in enumerate(top_6):
-        # Prepare GT Image
-        img_gt = draw_boxes(result_data['image'], result_data['gt_boxes'], 
-                           color=(0, 255, 0), label_names=class_names, is_pred=False)
+    # Create 4 separate grid files (6 images each)
+    for grid_idx in range(4):
+        start_idx = grid_idx * 6
+        end_idx = start_idx + 6
+        grid_images = top_24[start_idx:end_idx]
         
-        # Draw predictions in Red on top of the GT image
-        img_final = draw_boxes(img_gt, result_data['pred_boxes'], 
-                              color=(0, 0, 255), label_names=class_names, is_pred=True)
+        # Skip if we don't have enough images for this grid
+        if len(grid_images) == 0:
+            break
+        
+        # Plotting
+        fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+        axes = axes.flatten()
 
-        axes[i].imshow(img_final)
-        axes[i].set_title(f"Image {i+1}: Avg Conf={result_data['avg_conf']:.3f}\nGT(Green) vs Pred(Red)")
-        axes[i].axis('off')
+        for i, result_data in enumerate(grid_images):
+            # Prepare GT Image
+            img_gt = draw_boxes(result_data['image'], result_data['gt_boxes'], 
+                               color=(0, 255, 0), label_names=class_names, is_pred=False)
+            
+            # Draw predictions in Red on top of the GT image
+            img_final = draw_boxes(img_gt, result_data['pred_boxes'], 
+                                  color=(0, 0, 255), label_names=class_names, is_pred=True)
 
-    output_path = os.path.join(save_dir, "predictions_grid.png")
-    plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
-    
-    print(f"Visualization saved to {output_path}")
+            axes[i].imshow(img_final)
+            axes[i].set_title(f"Image {start_idx + i + 1}: Avg Conf={result_data['avg_conf']:.3f}\nGT(Green) vs Pred(Red)")
+            axes[i].axis('off')
+        
+        # Hide unused subplots if we have fewer than 6 images in this grid
+        for j in range(len(grid_images), 6):
+            axes[j].axis('off')
+
+        output_path = os.path.join(save_dir, f"predictions_grid_{grid_idx + 1}.png")
+        plt.tight_layout()
+        plt.savefig(output_path)
+        plt.close()
+        
+        print(f"Visualization {grid_idx + 1}/4 saved to {output_path}")

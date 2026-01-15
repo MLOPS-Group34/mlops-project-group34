@@ -43,8 +43,14 @@ def run_evaluation(config_path="configs/config.yaml", model_path=None, use_wandb
     print("Starting evaluation on Test set...")
     
     # Ultralytics validation mode on the test split
-    # Note: We define 'split=test' to use the test images defined in data.yaml
-    metrics = model_wrapper.model.val(split='test', project=os.path.join(root, "reports"), name="eval_results")
+    # Disable all local file outputs - metrics go to wandb
+    metrics = model_wrapper.model.val(
+        split='test',
+        plots=False,  # No confusion matrix plots
+        save_txt=False,  # No results txt
+        save_conf=False,  # No confidence files
+        save_crop=False  # No crop predictions
+    )
     
     # Log relevant metrics
     map50 = metrics.box.map50

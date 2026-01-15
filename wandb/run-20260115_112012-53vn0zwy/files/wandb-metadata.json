@@ -1,0 +1,34 @@
+{
+  "os":  "Windows-10-10.0.26200-SP0",
+  "python":  "CPython 3.11.5",
+  "startedAt":  "2026-01-15T10:20:12.559907Z",
+  "args":  [
+    "--pipeline",
+    "train",
+    "--config",
+    "configs/config.yaml"
+  ],
+  "program":  "C:\\Users\\45422\\Desktop\\MLOps\\mlops-project-group34\\main.py",
+  "codePath":  "main.py",
+  "codePathLocal":  "main.py",
+  "git":  {
+    "remote":  "https://github.com/MLOPS-Group34/mlops-project-group34.git",
+    "commit":  "29b5fee6a0bc295f5d3423ff5dd0549e5414ebf4"
+  },
+  "email":  "s214374@dtu.dk",
+  "root":  "C:\\Users\\45422\\Desktop\\MLOps\\mlops-project-group34",
+  "host":  "Venus",
+  "executable":  "C:\\Users\\45422\\Desktop\\MLOps\\mlops-project-group34\\.venv\\Scripts\\python.exe",
+  "cpu_count":  4,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "1022481469440",
+      "used":  "931298238464"
+    }
+  },
+  "memory":  {
+    "total":  "16906358784"
+  },
+  "writerId":  "ayes4qf4xujufqpi7gg93c5jy7flmx9t"
+}

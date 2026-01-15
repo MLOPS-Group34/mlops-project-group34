@@ -45,3 +45,12 @@ def run_training(config_path="configs/config.yaml"):
     wandb.finish()
 
     return best_model_path
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Train forest fire detection model")
+    parser.add_argument("--config", type=str, default="configs/config.yaml", help="Path to config file")
+    args = parser.parse_args()
+    
+    run_training(config_path=args.config)

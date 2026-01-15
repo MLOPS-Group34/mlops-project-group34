@@ -22,7 +22,7 @@ data_sampling:
 
 hyperparameters:
   model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
-  epochs: 10
+  epochs: 5
   batch_size: 32
   img_size: 640
   lr: 0.01

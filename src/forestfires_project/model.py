@@ -30,8 +30,13 @@ class ForestFireYOLO:
             lr0=hp['lr'],
             project=project_path,
             name=self.config['project_name'],
-            exist_ok=True, # Overwrite if exists
-            verbose=True
+            exist_ok=True,
+            verbose=True,
+            save=True,  # Keep weights only
+            plots=False,  # No training plots
+            save_txt=False,  # No txt files
+            save_conf=False,  # No confidence files
+            save_crop=False,  # No crop predictions
         )
         
         # Log final training metrics to wandb

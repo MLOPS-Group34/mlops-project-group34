@@ -1,0 +1,1 @@
+{"eval/precision":0.001756529064341579,"eval/recall":0.51875,"_timestamp":1.7684749056736722e+09,"_step":0,"eval/mAP50":0.14352412941831905,"_runtime":4,"_wandb":{"runtime":4},"eval/mAP50-95":0.08120769150797127}
