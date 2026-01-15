@@ -34,9 +34,9 @@ class ForestFireYOLO:
         logger.success("Training completed.")
         return results
 
-    def predict(self, image, conf=0.25):
+    def predict(self, image, conf=0.25, save=False):
         """Run inference on a single image or batch"""
-        return self.model.predict(image, conf=conf, verbose=False)
+        return self.model.predict(image, conf=conf, verbose=False, save=save)
 
     def load_weights(self, weights_path):
         """Load specific weights (e.g., best.pt)"""

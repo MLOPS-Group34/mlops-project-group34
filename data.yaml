@@ -1,6 +1,6 @@
 names:
-  0: fire
-  1: smoke
+- fire
+- smoke
 nc: 2
 path: C:\Users\45422\Desktop\MLOps\mlops-project-group34
 test: test_sampled.txt

@@ -14,14 +14,14 @@ paths:
 
 data_sampling:
   enabled: true # Set to false to use all data
-  train_samples: 100 # Number of random training images to use (null = use all)
-  val_samples: 30 # Number of random validation images to use (null = use all)
-  test_samples: 20 # Number of random test images to use (null = use all)
+  train_samples: 500 # Number of random training images to use (null = use all)
+  val_samples: 100 # Number of random validation images to use (null = use all)
+  test_samples: 50 # Number of random test images to use (null = use all)
   random_seed: 42 # For reproducible sampling
 
 hyperparameters:
   model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
-  epochs: 5
+  epochs: 10
   batch_size: 32
   img_size: 640
   lr: 0.01
