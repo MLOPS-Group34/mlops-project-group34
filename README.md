@@ -1,16 +1,72 @@
 # forestfires_project
 
 Hybrid Fire and Smoke Detection with MLOPS Practices
+
 This project is made by group 34 for the MLOPS January course (02476)
 
-The goal of the project is to design, implement and evaluate a reproducible machine learning pipeline for video-based fire and smoke detection applying the MLOps practices presented throughout the course. The aim is achieve a well-structured project that focuses on deploying, testing and monitoring an existing hybrid detection system in a robust and maintainable way that allows for multiple collaborators. This is to simulate a real-world project where machine learning engineers, data scientists, software developers and other relevant actors can coorporate on the same project rather individual projects. 
+The goal of the project is to design, implement and evaluate a reproducible machine learning pipeline for image-based fire and smoke detection applying the MLOps practices presented throughout the course. The aim is to achieve a well-structured project that focuses on deploying, testing and monitoring a YOLOv8 detection system in a robust and maintainable way that allows for multiple collaborators.
 
-The project is based on an existing hybrid fire detection framework built by Github user pedbrgs that combines spatial and temporal analysis. The scope of the project is subject to change throughout the course, however the current framework consists of two stages: 
-In the first stage, a YOLOv5 object detection model identifies candidate fire or smoke regions in individual video frames. In the second stage, temporal verification techniques such as the Area Variation Technique or the Temporal Persistence Technique are applied to confirm whether a true fire event is occurring over time. For comparison, baseline convolutional neural network models such as FireNet and MobileNet based classifiers will also be evaluated.
+The project uses **YOLOv8** for spatial detection of fire and smoke in images. The framework is built with PyTorch and Ultralytics YOLO, with Docker for environment reproducibility and YAML configuration files for experiment management. Dependency management is handled via `uv` and `pyproject.toml` to ensure consistent and traceable builds.
 
-The priimary framework used in the project is PyTorch along with YOLOv5 for sptial detection and OpenCV for temporal analysis and tracking. Docker is used to ensure environment reproducibility, and hydra to manage configurate files. Dependency management is handled via uv and pyproject.toml to ensure consistent and traceable builds. Experiment tracking, logging, and result visualization will be handled using Weights and Biases (wandb), enabling comparison of models, hyperparameters, and detection performance across experiments.
+## Quick Start
 
-The project will use publicly available fire and smoke video Fire-D dataset. The scope of the project is intentionally limited to allow iterative development over approximately six project days, starting with a minimal working pipeline and gradually adding complexity as time permits.
+### Prerequisites
+- Python 3.11+
+- `uv` package manager installed
+- Fire and smoke dataset in `data/processed/` (train/val/test splits)
+
+### Running the Pipeline
+
+1. **Configure your experiment** in `configs/config.yaml`:
+   - Set `data_sampling.enabled: true` for quick testing with subset of data
+   - Adjust `train_samples`, `val_samples`, `test_samples` for dataset size
+   - Set `epochs` and `batch_size` based on your hardware
+   - For quick testing, use `configs/config_quick_test.yaml`
+
+2. **Run the complete pipeline** from the project root:
+   ```bash
+   uv run python main.py --pipeline all --config configs/config.yaml
+   ```
+
+3. **Run individual stages**:
+   ```bash
+   # Training only
+   uv run python main.py --pipeline train --config configs/config.yaml
+   
+   # Evaluation only
+   uv run python main.py --pipeline evaluate --config configs/config.yaml
+   
+   # Visualization only
+   uv run python main.py --pipeline visualize --config configs/config.yaml
+   ```
+
+### Configuration Guide
+
+Edit `configs/config.yaml` to customize your training:
+
+```yaml
+# Data Sampling - Control dataset size
+data_sampling:
+  enabled: true          # Set false to use all data
+  train_samples: 100     # Number of training images (null = all)
+  val_samples: 30        # Number of validation images
+  test_samples: 20       # Number of test images
+  random_seed: 42        # For reproducible sampling
+
+# Training Hyperparameters
+hyperparameters:
+  model_type: "yolov8n.pt"  # Options: yolov8n/s/m/l/x.pt
+  epochs: 50                # Training epochs
+  batch_size: 32            # Batch size
+  img_size: 640             # Image size
+  lr: 0.01                  # Learning rate
+```
+
+**Recommended configurations:**
+- **Quick test**: 100 train samples, 5 epochs (~5 min)
+- **Small experiment**: 500 train samples, 50 epochs (~1 hour)
+- **Good performance**: 2000 train samples, 100 epochs (~3 hours)
+- **Production**: All data, 150-200 epochs (~12-24 hours)
  
 
 
@@ -20,44 +76,66 @@ The directory structure of the project looks like this:
 ```txt
 ├── .github/                  # Github actions and dependabot
 │   ├── dependabot.yaml
+│   ├── agents/               # AI agent configurations
+│   ├── prompts/              # Prompt templates
 │   └── workflows/
-│       └── tests.yaml
+│       ├── tests.yaml
+│       ├── linting.yaml
+│       └── pre-commit-update.yaml
 ├── configs/                  # Configuration files
+│   ├── config.yaml           # Main training configuration
+│   └── config_quick_test.yaml  # Quick test configuration
 ├── data/                     # Data directory
-│   ├── processed
-│   └── raw
+│   ├── processed/            # Train/val/test splits
+│   │   ├── train/
+│   │   │   ├── images/       # Training images (gitignored)
+│   │   │   └── labels/       # YOLO format labels (gitignored)
+│   │   ├── val/              # Validation data
+│   │   └── test/             # Test data
+│   ├── raw/                  # Original raw data
+│   ├── samples/              # Sample data for testing
+│   └── final/                # Final processed datasets
 ├── dockerfiles/              # Dockerfiles
-│   ├── api.Dockerfile
-│   └── train.Dockerfile
+│   ├── api.dockerfile
+│   └── train.dockerfile
 ├── docs/                     # Documentation
-│   ├── mkdocs.yml
+│   ├── mkdocs.yaml
+│   ├── README.md
 │   └── source/
 │       └── index.md
-├── models/                   # Trained models
+├── logs/                     # Training and pipeline logs
+├── models/                   # Trained models and weights
+│   └── forest_fire_detection/
+│       └── weights/
+│           └── best.pt       # Best model checkpoint
 ├── notebooks/                # Jupyter notebooks
-├── reports/                  # Reports
+│   ├── data_exploration.ipynb
+│   └── generate_samples.ipynb
+├── reports/                  # Reports and visualizations
 │   └── figures/
 ├── src/                      # Source code
-│   ├── project_name/
-│   │   ├── __init__.py
-│   │   ├── api.py
-│   │   ├── data.py
-│   │   ├── evaluate.py
-│   │   ├── models.py
-│   │   ├── train.py
-│   │   └── visualize.py
-└── tests/                    # Tests
+│   └── forestfires_project/
+│       ├── __init__.py
+│       ├── api.py            # API endpoints
+│       ├── data.py           # Data loading and sampling
+│       ├── evaluate.py       # Model evaluation
+│       ├── model.py          # YOLOv8 model wrapper
+│       ├── train.py          # Training pipeline
+│       ├── utils.py          # Utility functions
+│       └── visualize.py      # Visualization pipeline
+├── tests/                    # Tests
 │   ├── __init__.py
 │   ├── test_api.py
 │   ├── test_data.py
 │   └── test_model.py
+├── .devcontainer/            # VS Code dev container config
 ├── .gitignore
 ├── .pre-commit-config.yaml
+├── .python-version
 ├── LICENSE
+├── main.py                   # Main pipeline entry point
 ├── pyproject.toml            # Python project file
 ├── README.md                 # Project README
-├── requirements.txt          # Project requirements
-├── requirements_dev.txt      # Development requirements
 └── tasks.py                  # Project tasks
 ```
 
