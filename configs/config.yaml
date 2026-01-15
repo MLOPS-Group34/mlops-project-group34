@@ -1,4 +1,5 @@
 project_name: "forest_fire_detection"
+wandb_project: "mlops_project_group34"
 paths:
   root_dir: "../" # Relative to configs folder - points to project root
   train_images: "data/processed/train/images"

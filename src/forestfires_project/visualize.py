@@ -3,7 +3,6 @@ import cv2
 import yaml
 import os
 import numpy as np
-from loguru import logger
 from forestfires_project.data import get_test_loader
 from forestfires_project.model import ForestFireYOLO
 
@@ -52,7 +51,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     class_names = [classes_dict[i] for i in sorted(classes_dict.keys())]
 
     # Collect predictions for all images to find most confident ones
-    logger.info("Running inference on test set to find most confident predictions...")
+    print("Running inference on test set to find most confident predictions...")
     all_results = []
     
     for batch_idx, (images, gt_boxes_batch, img_paths) in enumerate(loader):
@@ -78,7 +77,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     top_6 = all_results[:6]
     
     conf_scores = [f"{r['avg_conf']:.3f}" for r in top_6]
-    logger.info(f"Selected top 6 images with confidence scores: {conf_scores}")
+    print(f"Selected top 6 images with confidence scores: {conf_scores}")
 
     # Plotting
     fig, axes = plt.subplots(2, 3, figsize=(20, 12))
@@ -102,4 +101,4 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     plt.savefig(output_path)
     plt.close()
     
-    logger.success(f"Visualization saved to {output_path}")
+    print(f"Visualization saved to {output_path}")
