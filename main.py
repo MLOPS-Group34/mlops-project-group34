@@ -1,15 +1,15 @@
 import sys
-import os
 import argparse
 from pathlib import Path
+from forestfires_project.train import run_training
+from forestfires_project.evaluate import run_evaluation
+from forestfires_project.visualize import run_visualization
 
 # Add src directory to path for imports
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from forestfires_project.train import run_training
-from forestfires_project.evaluate import run_evaluation
-from forestfires_project.visualize import run_visualization
+
 
 def main():
     parser = argparse.ArgumentParser(description="Forest Fire Detection Pipeline")

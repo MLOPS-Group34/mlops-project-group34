@@ -1,6 +1,5 @@
 import yaml
 import os
-from pathlib import Path
 import wandb
 from dotenv import load_dotenv
 from forestfires_project.data import create_yolo_yaml

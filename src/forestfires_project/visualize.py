@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import cv2
 import yaml
 import os
-import numpy as np
 from forestfires_project.data import get_test_loader
 from forestfires_project.model import ForestFireYOLO
 

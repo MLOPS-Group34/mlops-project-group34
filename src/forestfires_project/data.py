@@ -3,7 +3,6 @@ import cv2
 import yaml
 import glob
 import random
-from pathlib import Path
 from torch.utils.data import Dataset, DataLoader
 
 class FireDataset(Dataset):
@@ -134,7 +133,7 @@ def create_yolo_yaml(config, config_path):
             for fname in test_files:
                 f.write(os.path.join(test_img_dir, f"{fname}.jpg") + '\n')
         
-        print(f"Data sampling applied - using sampled image lists")
+        print("Data sampling applied - using sampled image lists")
         
         # YOLO uses the txt files containing sampled image paths
         data_yaml = {
