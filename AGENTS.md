@@ -15,21 +15,9 @@
     `tasks.py` file.
 * The project uses `pre-commit` for managing pre-commit hooks. To run all hooks on all files, use
     `uv run pre-commit run --all-files`. For more information, refer to the `.pre-commit-config.yaml` file.
-
-# Code style
-
-* Follow existing code style.
-* Keep line length within 120 characters.
-* Use f-strings for formatting.
-* Use type hints
-* Do not add inline comments unless absolutely necessary.
-
-# Documentation
-
-* If the project has a `docs/` folder, update documentation there as needed.
-* In this case the project will be using `mkdocs` for documentation. To build the docs locally, use
-    `uv run mkdocs serve`
-* Use existing docstring style.
-* Ensure all functions and classes have docstrings.
-* Use Google style for docstrings.
+* The project uses **Weights & Biases (wandb)** for experiment tracking and logging:
+    * Make sure to create a `.env` file with your `WANDB_API_KEY` (see `.env.example`).
+    * Training and evaluation metrics are automatically logged to wandb.
+    * View results at wandb.ai after running experiments.
+    * See `docs/WANDB_INTEGRATION.md` for detailed setup and usage.
 * Update this `AGENTS.md` file if any new tools or commands are added to the project.

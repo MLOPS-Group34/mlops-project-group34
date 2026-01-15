@@ -1,9 +1,13 @@
 import yaml
 import os
-from loguru import logger
+import wandb
+from dotenv import load_dotenv
 from forestfires_project.model import ForestFireYOLO
 
-def run_evaluation(config_path="configs/config.yaml", model_path=None):
+def run_evaluation(config_path="configs/config.yaml", model_path=None, use_wandb=True):
+    # Load environment variables
+    load_dotenv()
+    
     # Resolve config path relative to project root
     if not os.path.isabs(config_path):
         config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), config_path)
@@ -20,14 +24,23 @@ def run_evaluation(config_path="configs/config.yaml", model_path=None):
         model_path = os.path.join(root, config['paths']['models_dir'], config['project_name'], "weights", "best.pt")
 
     if not os.path.exists(model_path):
-        logger.error(f"Model not found at {model_path}. Please train first.")
+        print(f"Model not found at {model_path}. Please train first.")
         return
+
+    # Initialize wandb if requested
+    if use_wandb:
+        wandb.init(
+            project=config['wandb_project'],
+            name=f"{config['project_name']}_evaluation",
+            config=config,
+            job_type="evaluation"
+        )
 
     # Initialize and Load
     model_wrapper = ForestFireYOLO(config, config_path)
     model_wrapper.load_weights(model_path)
 
-    logger.info("Starting evaluation on Test set...")
+    print("Starting evaluation on Test set...")
     
     # Ultralytics validation mode on the test split
     # Note: We define 'split=test' to use the test images defined in data.yaml
@@ -39,10 +52,21 @@ def run_evaluation(config_path="configs/config.yaml", model_path=None):
     p = metrics.box.mp # Mean precision
     r = metrics.box.mr # Mean recall
 
-    logger.info("Evaluation Results:")
-    logger.info(f"mAP@50: {map50:.4f}")
-    logger.info(f"mAP@50-95: {map5095:.4f}")
-    logger.info(f"Precision: {p:.4f}")
-    logger.info(f"Recall: {r:.4f}")
+    print("Evaluation Results:")
+    print(f"mAP@50: {map50:.4f}")
+    print(f"mAP@50-95: {map5095:.4f}")
+    print(f"Precision: {p:.4f}")
+    print(f"Recall: {r:.4f}")
+    
+    # Log to wandb
+    if use_wandb:
+        eval_metrics = {
+            'eval/mAP50': map50,
+            'eval/mAP50-95': map5095,
+            'eval/precision': p,
+            'eval/recall': r
+        }
+        wandb.log(eval_metrics)
+        wandb.finish()
 
     return metrics

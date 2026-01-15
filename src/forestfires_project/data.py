@@ -4,7 +4,6 @@ import yaml
 import glob
 import random
 from pathlib import Path
-from loguru import logger
 from torch.utils.data import Dataset, DataLoader
 
 class FireDataset(Dataset):
@@ -67,17 +66,17 @@ def sample_dataset(img_dir, label_dir, num_samples, random_seed=42):
     all_images = glob.glob(os.path.join(img_dir, "*.jpg"))
     
     if not all_images:
-        logger.warning(f"No images found in {img_dir}")
+        print(f"Warning: No images found in {img_dir}")
         return []
     
     # Sample if needed
     if num_samples is not None and num_samples < len(all_images):
         random.seed(random_seed)
         sampled_images = random.sample(all_images, num_samples)
-        logger.info(f"Sampled {num_samples} images from {len(all_images)} available in {os.path.basename(img_dir)}")
+        print(f"Sampled {num_samples} images from {len(all_images)} available in {os.path.basename(img_dir)}")
     else:
         sampled_images = all_images
-        logger.info(f"Using all {len(all_images)} images from {os.path.basename(img_dir)}")
+        print(f"Using all {len(all_images)} images from {os.path.basename(img_dir)}")
     
     # Return just the filenames without path and extension
     return [os.path.splitext(os.path.basename(img))[0] for img in sampled_images]
@@ -97,7 +96,7 @@ def create_yolo_yaml(config, config_path):
     sampling_enabled = sampling_config.get('enabled', False)
     
     if sampling_enabled:
-        logger.info("Data sampling is ENABLED")
+        print("Data sampling is ENABLED")
         random_seed = sampling_config.get('random_seed', 42)
         
         # Sample train data
@@ -135,7 +134,7 @@ def create_yolo_yaml(config, config_path):
             for fname in test_files:
                 f.write(os.path.join(test_img_dir, f"{fname}.jpg") + '\n')
         
-        logger.info(f"Created sample lists: {train_txt}, {val_txt}, {test_txt}")
+        print(f"Created sample lists: {train_txt}, {val_txt}, {test_txt}")
         
         # YOLO expects paths relative to 'path' or absolute paths in .txt files
         data_yaml = {
@@ -147,7 +146,7 @@ def create_yolo_yaml(config, config_path):
             'names': class_names  # List in correct order
         }
     else:
-        logger.info("Data sampling is DISABLED - using all available data")
+        print("Data sampling is DISABLED - using all available data")
         # Original behavior - use directory paths
         data_yaml = {
             'path': root,
@@ -163,7 +162,7 @@ def create_yolo_yaml(config, config_path):
     with open(yaml_path, 'w') as f:
         yaml.dump(data_yaml, f, default_flow_style=False)
     
-    logger.info(f"YOLO data configuration saved to {yaml_path}")
+    print(f"YOLO data configuration saved to {yaml_path}")
     return yaml_path
 
 def get_test_loader(config, config_path):
