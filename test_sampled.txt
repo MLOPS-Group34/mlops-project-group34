@@ -1,50 +1,50 @@
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07635.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF06927.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09754.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09507.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01222.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07866.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07562.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07435.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10957.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF06983.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF06967.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07490.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01185.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01299.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB11640.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF06940.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF08351.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10937.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01199.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB11180.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09779.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF06776.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF08030.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10963.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10288.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09777.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07996.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01157.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10258.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07560.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07482.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10613.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07515.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10441.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10318.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09667.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07078.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB11264.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07745.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10601.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07368.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09902.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB10463.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF08298.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07292.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07098.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01260.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\WEB09871.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\AoF07376.jpg
-C:\Users\45422\Desktop\MLOps\mlops-project-group34\data/processed/test/images\PublicDataset01301.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10054.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07977.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07288.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11659.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11288.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10620.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF08088.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF06879.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07407.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07383.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB09850.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07150.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07286.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10355.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11141.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10681.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11058.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07188.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10974.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/PublicDataset01067.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07511.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB09448.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/PublicDataset01191.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF06725.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10217.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07539.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF08366.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB09969.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB09550.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10450.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11599.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB09585.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10491.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10438.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF08143.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10403.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10708.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10328.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10727.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF06804.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10094.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10358.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11095.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB11299.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10335.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10250.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF06985.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/AoF07882.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10269.jpg
+/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data/processed/test/images/WEB10433.jpg

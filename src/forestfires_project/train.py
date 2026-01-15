@@ -26,7 +26,6 @@ def run_training(config_path="configs/config.yaml"):
         project=config["wandb_project"],
         name=config["project_name"],
         config=config,
-        settings=wandb.Settings(system_sample_rate=0),  # Disable system metrics logging
     )
 
     # Step 1: Prepare Data

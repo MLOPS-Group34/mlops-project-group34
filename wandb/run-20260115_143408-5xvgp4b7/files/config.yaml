@@ -1,0 +1,90 @@
+_wandb:
+    value:
+        cli_version: 0.24.0
+        e:
+            svcde6zrxqjjk9nm850a5nxd75i04yll:
+                apple:
+                    ecpuCores: 2
+                    gpuCores: 16
+                    memoryGb: 16
+                    name: Apple M1 Pro
+                    pcpuCores: 8
+                    ramTotalBytes: "17179869184"
+                    swapTotalBytes: "1073741824"
+                args:
+                    - --config
+                    - configs/config.yaml
+                codePath: main.py
+                codePathLocal: main.py
+                cpu_count: 10
+                cpu_count_logical: 10
+                disk:
+                    /:
+                        total: "494384795648"
+                        used: "456328564736"
+                email: mathias.krois@gmail.com
+                executable: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/.venv/bin/python
+                git:
+                    commit: 604a76f60882debbbbe495ad2cf7187ffb4f45d0
+                    remote: https://github.com/MLOPS-Group34/mlops-project-group34.git
+                host: Mathiass-MacBook-Pro-2.local
+                memory:
+                    total: "17179869184"
+                os: macOS-26.1-arm64-arm-64bit
+                program: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/main.py
+                python: CPython 3.11.5
+                root: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34
+                startedAt: "2026-01-15T13:34:08.672243Z"
+                writerId: svcde6zrxqjjk9nm850a5nxd75i04yll
+        m: []
+        python_version: 3.11.5
+        t:
+            "1":
+                - 1
+                - 41
+                - 105
+            "2":
+                - 1
+                - 41
+                - 105
+            "3":
+                - 13
+                - 16
+            "4": 3.11.5
+            "5": 0.24.0
+            "12": 0.24.0
+            "13": darwin-arm64
+data_sampling:
+    value:
+        enabled: true
+        random_seed: 42
+        test_samples: 50
+        train_samples: 500
+        val_samples: 100
+hyperparameters:
+    value:
+        batch_size: 32
+        classes:
+            "0": fire
+            "1": smoke
+        epochs: 5
+        img_size: 640
+        lr: 0.01
+        model_type: yolov8n.pt
+paths:
+    value:
+        logs_dir: logs
+        models_dir: models
+        reports_dir: reports/figures
+        root_dir: ../
+        test_images: data/processed/test/images
+        test_labels: data/processed/test/labels
+        train_images: data/processed/train/images
+        train_labels: data/processed/train/labels
+        val_images: data/processed/val/images
+        val_labels: data/processed/val/labels
+        yolo_yaml: data.yaml
+project_name:
+    value: forest_fire_detection
+wandb_project:
+    value: mlops_project_group34

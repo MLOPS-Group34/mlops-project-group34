@@ -1,0 +1,41 @@
+{
+  "os": "macOS-26.1-arm64-arm-64bit",
+  "python": "CPython 3.11.5",
+  "startedAt": "2026-01-15T13:42:30.331265Z",
+  "args": [
+    "--config",
+    "configs/config.yaml"
+  ],
+  "program": "/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/src/forestfires_project/train.py",
+  "codePath": "src/forestfires_project/train.py",
+  "codePathLocal": "src/forestfires_project/train.py",
+  "git": {
+    "remote": "https://github.com/MLOPS-Group34/mlops-project-group34.git",
+    "commit": "604a76f60882debbbbe495ad2cf7187ffb4f45d0"
+  },
+  "email": "mathias.krois@gmail.com",
+  "root": "/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34",
+  "host": "Mathiass-MacBook-Pro-2.local",
+  "executable": "/Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/.venv/bin/python3",
+  "cpu_count": 10,
+  "cpu_count_logical": 10,
+  "disk": {
+    "/": {
+      "total": "494384795648",
+      "used": "456623341568"
+    }
+  },
+  "memory": {
+    "total": "17179869184"
+  },
+  "apple": {
+    "name": "Apple M1 Pro",
+    "ecpuCores": 2,
+    "pcpuCores": 8,
+    "gpuCores": 16,
+    "memoryGb": 16,
+    "swapTotalBytes": "1073741824",
+    "ramTotalBytes": "17179869184"
+  },
+  "writerId": "ispisnd0u474j1fzxislod1scsoklcaz"
+}
