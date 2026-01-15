@@ -1,0 +1,30 @@
+project_name: "forest_fire_detection_quicktest"
+paths:
+  root_dir: "../" # Relative to configs folder - points to project root
+  train_images: "data/processed/train/images"
+  train_labels: "data/processed/train/labels"
+  val_images: "data/processed/val/images"
+  val_labels: "data/processed/val/labels"
+  test_images: "data/processed/test/images"
+  test_labels: "data/processed/test/labels"
+  models_dir: "models"
+  logs_dir: "logs"
+  reports_dir: "reports/figures"
+  yolo_yaml: "data.yaml" # Generated automatically
+
+data_sampling:
+  enabled: true # Set to false to use all data
+  train_samples: 50 # Small sample for quick testing
+  val_samples: 15 # Small sample for quick testing
+  test_samples: 10 # Small sample for quick testing
+  random_seed: 42 # For reproducible sampling
+
+hyperparameters:
+  model_type: "yolov8n.pt" # Nano model for speed
+  epochs: 3 # Just a few epochs for quick testing
+  batch_size: 8 # Smaller batch for faster iteration
+  img_size: 640
+  lr: 0.01
+  classes:
+    0: "fire"
+    1: "smoke"

@@ -1,0 +1,30 @@
+project_name: "forest_fire_detection"
+paths:
+  root_dir: "../" # Relative to configs folder - points to project root
+  train_images: "data/processed/train/images"
+  train_labels: "data/processed/train/labels"
+  val_images: "data/processed/val/images"
+  val_labels: "data/processed/val/labels"
+  test_images: "data/processed/test/images"
+  test_labels: "data/processed/test/labels"
+  models_dir: "models"
+  logs_dir: "logs"
+  reports_dir: "reports/figures"
+  yolo_yaml: "data.yaml" # Generated automatically
+
+data_sampling:
+  enabled: true # Set to false to use all data
+  train_samples: 100 # Number of random training images to use (null = use all)
+  val_samples: 30 # Number of random validation images to use (null = use all)
+  test_samples: 20 # Number of random test images to use (null = use all)
+  random_seed: 42 # For reproducible sampling
+
+hyperparameters:
+  model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
+  epochs: 5
+  batch_size: 32
+  img_size: 640
+  lr: 0.01
+  classes:
+    0: "fire"
+    1: "smoke"

@@ -177,10 +177,11 @@ cython_debug/
 #.idea/
 
 #data files
-
-data/processed/test/images/*.jpg
-data/processed/test/labels/*.txt
-data/processed/train/images/*.jpg
-data/processed/train/labels/*.txt
-!data/samples/*
+data/processed/test/
+data/processed/train/
+data/processed/val/
+!data/processed/test/.gitkeep
+!data/processed/train/.gitkeep
+!data/processed/val/.gitkeep
+!data/samples/
 
