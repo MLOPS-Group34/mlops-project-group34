@@ -17,23 +17,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          enable-cache: true
+          # This automatically uses the version from your pyproject.toml or .python-version file
+          python-version: "3.11" 
 
       - name: Install dependencies
-        run: |
-          python -m pip install -U pip setuptools wheel
-          pip install -r requirements.txt
-          pip install -r requirements_dev.txt
-          pip list
+        # This is much faster than multiple pip install commands
+        # It ensures your environment exactly matches your lockfile
+        run: uv sync --all-extras --dev
 
-      - name: ruff check
-        run: |
-          ruff check .
+      - name: Run ruff check
+        # 'uv run' ensures you use the ruff version locked in your project
+        run: uv run ruff check .
 
-      - name: ruff format
-        run: |
-          ruff format .
+      - name: Run ruff format
+        run: uv run ruff format --check .
