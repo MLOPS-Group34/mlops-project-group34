@@ -1139,7 +1139,6 @@ name = "forestfires-project"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
-    { name = "dvc" },
     { name = "dvc-gdrive" },
     { name = "fastapi" },
     { name = "ipykernel" },
@@ -1184,7 +1183,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "dvc", specifier = ">=3.66.1" },
     { name = "dvc-gdrive", specifier = ">=3.0.1" },
     { name = "fastapi", specifier = "==0.115.6" },
     { name = "ipykernel", specifier = ">=7.1.0" },
