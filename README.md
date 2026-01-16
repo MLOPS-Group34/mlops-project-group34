@@ -42,7 +42,6 @@ The project uses **YOLOv8** for spatial detection of fire and smoke in images. T
    # Visualization only
    uv run python main.py --pipeline visualize --config configs/config.yaml
    ```
-
 ### Configuration Guide
 
 Edit `configs/config.yaml` to customize your training:
