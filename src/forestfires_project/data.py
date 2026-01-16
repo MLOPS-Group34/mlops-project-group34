@@ -6,6 +6,7 @@ import random
 from torch.utils.data import Dataset, DataLoader
 
 
+
 class FireDataset(Dataset):
     """Custom Dataset for loading images and labels for Visualization/Manual Eval"""
 

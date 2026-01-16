@@ -30,6 +30,9 @@ The project uses **YOLOv8** for spatial detection of fire and smoke in images. T
 
 3. **Run individual stages**:
    ```bash
+   # Cloud data synchronization only
+   main.py --pipeline sync
+   
    # Training only
    uv run python main.py --pipeline train --config configs/config.yaml
    
