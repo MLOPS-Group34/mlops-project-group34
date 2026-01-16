@@ -99,6 +99,20 @@ target/
 profile_default/
 ipython_config.py
 
+# Wandb
+/wandb/
+
+# Sample files
+test_sampled.txt
+train_sampled.txt
+val_sampled.txt
+
+# Data
+data.yaml
+args.yaml
+results.csv
+
+*.pt
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
