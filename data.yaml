@@ -2,7 +2,7 @@ names:
 - fire
 - smoke
 nc: 2
-path: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34
-test: test_sampled.txt
-train: train_sampled.txt
-val: val_sampled.txt
+path: /
+test: data/samples/images
+train: data/samples/images
+val: data/samples/images

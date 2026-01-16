@@ -1,29 +1,34 @@
 project_name: "forest_fire_detection"
 wandb_project: "mlops_project_group34"
+
+# NOTE: Using sampled data for pipeline validation.
+# Switch to data/processed/* once preprocessing is finalized.
+
 paths:
   root_dir: "../" # Relative to configs folder - points to project root
-  train_images: "data/processed/train/images"
-  train_labels: "data/processed/train/labels"
-  val_images: "data/processed/val/images"
-  val_labels: "data/processed/val/labels"
-  test_images: "data/processed/test/images"
-  test_labels: "data/processed/test/labels"
+  train_images: "data/samples/images"  #"data/processed/train/images"
+  train_labels: "data/samples/labels"  #"data/processed/train/labels"
+  val_images: "data/samples/images"  #"data/processed/val/images"
+  val_labels: "data/samples/labels"  #"data/processed/val/labels"
+  test_images: "data/samples/images"  #"data/processed/test/images" 
+  test_labels: "data/samples/labels"  #"data/processed/test/labels" 
   models_dir: "models"
   logs_dir: "logs"
   reports_dir: "reports/figures"
   yolo_yaml: "data.yaml" # Generated automatically
 
+# NOTE: FOR TRAINING OF PIPELINE HAS DATASAMPLING BEEN TURNED OFF!!
 data_sampling:
-  enabled: true # Set to false to use all data
-  train_samples: 500 # Number of random training images to use (null = use all)
-  val_samples: 100 # Number of random validation images to use (null = use all)
-  test_samples: 50 # Number of random test images to use (null = use all)
-  random_seed: 42 # For reproducible sampling
+  enabled: false # Set to false to use all data 
+ # train_samples: 500 # Number of random training images to use (null = use all)
+ # val_samples: 100 # Number of random validation images to use (null = use all)
+ # test_samples: 50 # Number of random test images to use (null = use all)
+ # random_seed: 42 # For reproducible sampling
 
 hyperparameters:
   model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
   epochs: 5
-  batch_size: 32
+  batch_size: 4
   img_size: 640
   lr: 0.01
   classes:
