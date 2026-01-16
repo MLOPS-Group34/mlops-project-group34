@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: yolov8n.pt
-data: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/data.yaml
+data: ../data.yaml
 epochs: 5
 time: null
 patience: 100
@@ -12,7 +12,7 @@ save_period: -1
 cache: false
 device: cpu
 workers: 8
-project: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/models
+project: ../models
 name: forest_fire_detection
 exist_ok: true
 pretrained: true
@@ -105,4 +105,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: /Users/mathiaskroismoller/Documents/DTU/Kanditat/2. Semester/MLOPS/mlops-project-group34/models/forest_fire_detection
+save_dir: ../models/forest_fire_detection
