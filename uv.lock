@@ -4069,7 +4069,7 @@ wheels = [
 
 [[package]]
 name = "roboflow"
-version = "1.2.11"
+version = "1.2.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
@@ -4092,9 +4092,9 @@ dependencies = [
     { name = "tqdm" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/27/7c0232ddba7ba8bf7d406dc75d55b6ca4e39613e99603e7a66d5433b596d/roboflow-1.2.11.tar.gz", hash = "sha256:f86b1a4e7628296a4ad3d4006ef4fc82e6317a1c6f89efdb0ea83fa2270b3ecf", size = 82743, upload-time = "2025-10-13T14:58:19.824Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/1e/44d3da7fb2bd9caba0619b94472b00ae5726752f4092738bf09d9a306f78/roboflow-1.2.12.tar.gz", hash = "sha256:62a8346382298f0ab7d6c969150a64d96f03738dfd07701c51391f29550fe7bb", size = 84637, upload-time = "2026-01-15T10:04:18.946Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/84/e8/0bc5996818c4566e3156102a945873f5999feec846a75d3bf19ef7e82ac2/roboflow-1.2.11-py3-none-any.whl", hash = "sha256:d40637318a8a8ae84bfc4384716ef490bcd8327c3d2af3d447e240c57a35357b", size = 89934, upload-time = "2025-10-13T14:58:18.683Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/29/da7015926226e2c7c2899e7d8b10c37fe96e9df986697cf704c9ce9a6509/roboflow-1.2.12-py3-none-any.whl", hash = "sha256:c385678bfa555944a9899d03f540f1b2637d216f65b47ccd6432224775d6feb7", size = 91679, upload-time = "2026-01-15T10:04:17.419Z" },
 ]
 
 [[package]]
