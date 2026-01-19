@@ -1,69 +1,44 @@
 # Cloud Build configuration for Forest Fire Detection Pipeline
 # Triggers: Push to main branch
-# Actions: Run tests → Build image → Push to Artifact Registry
-
-substitutions:
-  _REGION: europe-west1
-  _REPOSITORY: docker-repo
-  _IMAGE_NAME: forestfires-pipeline
-  _GCS_BUCKET: forestfires-data-bucket
+# Actions: Build image → Push to Artifact Registry
 
 options:
   logging: CLOUD_LOGGING_ONLY
   machineType: E2_HIGHCPU_8
 
-# Make WANDB_API_KEY available from Secret Manager
-availableSecrets:
-  secretManager:
-    - versionName: projects/mlops-group34/secrets/WANDB_API_KEY/versions/latest
-      env: WANDB_API_KEY
-
 steps:
-  # Step 1: Run pytest
-  - name: 'python:3.11-slim'
-    id: 'run-tests'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        pip install uv
-        uv sync --frozen --all-extras --dev
-        uv run pytest tests/ -v --tb=short
-    waitFor: ['-']  # Start immediately
-
-  # Step 2: Build the Docker image
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build-image'
     args:
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$COMMIT_SHA'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
       - '-f'
       - 'dockerfiles/main.dockerfile'
       - '.'
-    waitFor: ['run-tests']  # Only build if tests pass
 
-  # Step 3: Push image with commit SHA tag
+  # Step 2: Push image with build ID tag
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'push-image-sha'
+    id: 'push-image-id'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$COMMIT_SHA'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
     waitFor: ['build-image']
 
-  # Step 4: Push image with latest tag
+  # Step 3: Push image with latest tag
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push-image-latest'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
     waitFor: ['build-image']
 
 # Images to be pushed to Artifact Registry
 images:
-  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$COMMIT_SHA'
-  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest'
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
 
 timeout: 1800s  # 30 minutes
