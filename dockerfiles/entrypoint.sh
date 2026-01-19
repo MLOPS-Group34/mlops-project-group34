@@ -4,10 +4,10 @@ set -e
 # Fetch WANDB_API_KEY from Google Cloud Secret Manager if not already set
 if [ -z "$WANDB_API_KEY" ]; then
     echo "Fetching WANDB_API_KEY from Secret Manager..."
-    
+
     # Try to fetch the secret, capture both stdout and stderr
     SECRET_OUTPUT=$(gcloud secrets versions access latest --secret="WANDB_API_KEY" 2>&1) && SECRET_SUCCESS=true || SECRET_SUCCESS=false
-    
+
     if [ "$SECRET_SUCCESS" = true ]; then
         export WANDB_API_KEY="$SECRET_OUTPUT"
         echo "WANDB_API_KEY loaded from Secret Manager"

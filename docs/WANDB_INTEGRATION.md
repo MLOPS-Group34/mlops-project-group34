@@ -12,7 +12,7 @@ This project uses **Weights & Biases (wandb)** for experiment tracking and loggi
    ```bash
    cp .env.example .env
    ```
-   
+
    Then edit `.env` and add your API key:
    ```
    WANDB_API_KEY=your_actual_api_key_here
@@ -45,7 +45,7 @@ The Ultralytics YOLO library has **built-in wandb integration**. When wandb is i
   - `train/box_loss`: Bounding box regression loss
   - `train/cls_loss`: Classification loss
   - `train/dfl_loss`: Distribution focal loss
-  
+
 - **Validation metrics** (per epoch):
   - `metrics/precision(B)`: Precision for bounding boxes
   - `metrics/recall(B)`: Recall for bounding boxes

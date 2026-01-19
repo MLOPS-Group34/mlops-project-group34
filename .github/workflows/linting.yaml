@@ -22,7 +22,7 @@ jobs:
         with:
           enable-cache: true
           # This automatically uses the version from your pyproject.toml or .python-version file
-          python-version: "3.11" 
+          python-version: "3.11"
 
       - name: Install dependencies
         # This is much faster than multiple pip install commands

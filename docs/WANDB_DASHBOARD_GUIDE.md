@@ -37,7 +37,7 @@ lr                      → Learning rate schedule during training
 final/mAP50, final/precision, final/recall, final/box_loss, final/cls_loss
 ```
 
-### 3. **System Tab** 
+### 3. **System Tab**
 - **Now Disabled** - System metrics are no longer logged to reduce clutter
 
 ## Customizing Your Dashboard
