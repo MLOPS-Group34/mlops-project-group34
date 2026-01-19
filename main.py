@@ -25,10 +25,10 @@ def main():
     parser.add_argument("--config", type=str, default="configs/config.yaml", help="Path to config file")
 
     # optional overrides
-    parser.add_argument("--gcs_uri", type=str, default="gs://forestfires-data-bucket/data/",
-                        help="GCS data prefix (end with /)")
-    parser.add_argument("--local_data_dir", type=str, default="data/",
-                        help="Local data directory (end with /)")
+    parser.add_argument(
+        "--gcs_uri", type=str, default="gs://forestfires-data-bucket/data/", help="GCS data prefix (end with /)"
+    )
+    parser.add_argument("--local_data_dir", type=str, default="data/", help="Local data directory (end with /)")
 
     args = parser.parse_args()
 
