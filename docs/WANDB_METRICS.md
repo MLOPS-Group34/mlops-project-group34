@@ -19,7 +19,7 @@ YOLO automatically logs these metrics at each epoch:
 
 **Training Metrics:**
 - `train/box_loss` - Bounding box localization loss
-- `train/cls_loss` - Classification loss  
+- `train/cls_loss` - Classification loss
 - `train/dfl_loss` - Distribution focal loss
 
 **Validation Metrics (per epoch):**

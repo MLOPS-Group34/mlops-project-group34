@@ -32,13 +32,13 @@ The project uses **YOLOv8** for spatial detection of fire and smoke in images. T
    ```bash
    # Cloud data synchronization only
    main.py --pipeline sync
-   
+
    # Training only
    uv run python main.py --pipeline train --config configs/config.yaml
-   
+
    # Evaluation only
    uv run python main.py --pipeline evaluate --config configs/config.yaml
-   
+
    # Visualization only
    uv run python main.py --pipeline visualize --config configs/config.yaml
    ```
@@ -70,7 +70,7 @@ hyperparameters:
 - **Small experiment**: 500 train samples, 50 epochs (~1 hour)
 - **Good performance**: 2000 train samples, 100 epochs (~3 hours)
 - **Production**: All data, 150-200 epochs (~12-24 hours)
- 
+
 
 
 ## Project structure
