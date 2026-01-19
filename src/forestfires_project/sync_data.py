@@ -65,3 +65,4 @@ def sync_gcs_to_local_or_mount(
 
         print(f"Sync complete. Local data dir: {local_dir.resolve()}")
         return local_dir.resolve()
+        # End of sync_gcs_to_local_or_mount
