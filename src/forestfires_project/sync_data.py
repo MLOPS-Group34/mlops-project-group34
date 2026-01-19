@@ -9,7 +9,6 @@ def sync_gcs_to_local(
     gcs_uri: str = "gs://forestfires-data-bucket/data/",
     local_dir: str | Path = "data/",
 ) -> Path:
-
     if not gcs_uri.endswith("/"):
         gcs_uri += "/"
     local_dir = Path(local_dir)
