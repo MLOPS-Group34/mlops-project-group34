@@ -200,11 +200,10 @@ data/processed/val/
 !data/processed/train/.gitkeep
 !data/processed/val/.gitkeep
 !data/samples/
-data/
-
-
+data/*
 # But DO NOT ignore the DVC metadata files
 !data.dvc
+!data/*.dvc
 
 # Ruff cache
 .ruff_cache/
