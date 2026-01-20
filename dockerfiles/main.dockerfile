@@ -6,7 +6,7 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies required for OpenCV, torch, and GCS tools
+# Install system dependencies required for OpenCV, torch, GCS tools, and gcsfuse
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     libglib2.0-0 \
@@ -16,6 +16,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     curl \
     gnupg \
+    lsb-release \
+    && export GCSFUSE_REPO=gcsfuse-$(lsb_release -c -s) \
+    && echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" > /etc/apt/sources.list.d/gcsfuse.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt $GCSFUSE_REPO main" > /etc/apt/sources.list.d/gcsfuse.list \
+    && apt-get update && apt-get install -y gcsfuse \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Google Cloud SDK for gsutil (used in sync_data.py)
@@ -25,7 +31,6 @@ ENV PATH="/opt/google-cloud-sdk/bin:${PATH}"
 # Install uv for fast Python package management
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Copy all files needed for package installation
 COPY pyproject.toml uv.lock* README.md ./
 COPY src/ ./src/
 
