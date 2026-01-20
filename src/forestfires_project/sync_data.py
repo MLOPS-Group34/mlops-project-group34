@@ -1,5 +1,20 @@
-def is_running_on_gce():
-    """Check if the code is running on a Google Cloud Compute Engine instance."""
+from __future__ import annotations
+import os
+import socket
+import subprocess
+from pathlib import Path
+from typing import Tuple
+from urllib.parse import urlparse
+
+
+def is_running_on_gce() -> bool:
+    try:
+        with socket.create_connection(("169.254.169.254", 80), timeout=0.2):
+            return True
+    except OSError:
+        pass
+
+    # 2) Fall back to DMI product_name (works on many VMs)
     try:
         product_name_path = "/sys/class/dmi/id/product_name"
         if os.path.exists(product_name_path):
@@ -14,17 +29,7 @@ def is_running_on_gce():
 
 
 def parse_gs_uri(gs_uri: str) -> Tuple[str, str]:
-    """
-    Parse a GCS URI like:
-      gs://bucket
-      gs://bucket/
-      gs://bucket/data
-      gs://bucket/data/
 
-    Returns: (bucket, prefix)
-      bucket: "bucket"
-      prefix: "" or "data/" or "some/path/"
-    """
     u = urlparse(gs_uri)
     if u.scheme != "gs":
         raise ValueError(f"Expected a gs:// URI, got: {gs_uri!r}")
@@ -110,33 +115,24 @@ def sync_gcs_to_local_or_mount(
     mount_only_prefix: bool = True,
 ) -> Path:
 
-    if not gcs_uri.endswith("/"):
-        gcs_uri += "/"
+    bucket, prefix = parse_gs_uri(gcs_uri)
 
     if is_running_on_gce():
         mount_dir = Path(mount_dir)
         mount_dir.mkdir(parents=True, exist_ok=True)
 
-        cmd = [
-            "gcsfuse",
-            "--implicit-dirs",
-            "forestfires-data-bucket",  # Only the bucket name
-            str(mount_dir),
-        ]
-        print(f">>> STAGE: MOUNT\nRunning: {' '.join(cmd)}")
+        # If already mounted, just return the correct path
+        if _is_mountpoint(mount_dir):
+            if mount_only_prefix and prefix:
+                return mount_dir.resolve()
+            return (mount_dir / prefix).resolve() if prefix else mount_dir.resolve()
 
-        try:
-            subprocess.run(cmd, check=True)
-            print(f"Bucket mounted at: {mount_dir.resolve()}")
-            return mount_dir.resolve()
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"gcsfuse mount failed with exit code {e.returncode}") from e
+        cmd = ["gcsfuse", "--implicit-dirs"]
 
-        print(f"Bucket mounted at: {mount_dir.resolve()}")
-        return mount_dir.resolve()
-    else:
-        local_dir = Path(local_dir)
-        local_dir.mkdir(parents=True, exist_ok=True)
+        # Mount only a subfolder inside the bucket (recommended if you only need that prefix)
+        if mount_only_prefix and prefix:
+            # gcsfuse expects a dir without trailing slash
+            cmd += ["--only-dir", prefix.rstrip("/")]
 
         # IMPORTANT: bucket name ONLY
         cmd += [bucket, str(mount_dir)]
@@ -145,9 +141,20 @@ def sync_gcs_to_local_or_mount(
         try:
             subprocess.run(cmd, check=True)
         except FileNotFoundError as e:
-            raise RuntimeError("gsutil not found. Install Google Cloud SDK or include it in your Docker image.") from e
+            raise RuntimeError(
+                "gcsfuse not found in the container. Install gcsfuse in your Docker image."
+            ) from e
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"gsutil rsync failed with exit code {e.returncode}") from e
+            raise RuntimeError(f"gcsfuse mount failed with exit code {e.returncode}") from e
+
+        mounted_path = mount_dir.resolve()
+
+        # If we mounted the whole bucket, return the prefix inside it
+        if (not mount_only_prefix) and prefix:
+            return (mounted_path / prefix).resolve()
+
+        # If we used --only-dir (or no prefix provided), mount_dir itself is the data root
+        return mounted_path
 
     # Local execution: sync from gs:// to local folder
     local_dir = Path(local_dir)
