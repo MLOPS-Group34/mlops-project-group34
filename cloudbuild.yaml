@@ -47,8 +47,8 @@ steps:
           --zone=europe-west1-b \
           --machine-type=n1-standard-4 \
           --accelerator=type=nvidia-tesla-t4,count=1 \
-          --image-family=common-cu121-ubuntu-2204-py310 \
-          --image-project=deeplearning-platform-release \
+          --image-family=pytorch-2-7-cu128-ubuntu-2204-nvidia-570 \
+           --image-project=deeplearning-platform-release \
           --maintenance-policy=TERMINATE \
           --scopes=https://www.googleapis.com/auth/cloud-platform \
           --metadata=build-id=$BUILD_ID,project-id=$PROJECT_ID,startup-script='#!/bin/bash
