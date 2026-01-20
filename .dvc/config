@@ -1,4 +1,6 @@
 [core]
-    remote = remote_storage
+    remote = gcsremote
 ['remote "remote_storage"']
     url = gs://forestfires-data-bucket/
+['remote "gcsremote"']
+    url = gs://forestfires-data-bucket/data

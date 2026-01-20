@@ -52,6 +52,9 @@ def sync_gcs_to_local_or_mount(
             return mount_dir.resolve()
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"gcsfuse mount failed with exit code {e.returncode}") from e
+
+        print(f"Bucket mounted at: {mount_dir.resolve()}")
+        return mount_dir.resolve()
     else:
         local_dir = Path(local_dir)
         local_dir.mkdir(parents=True, exist_ok=True)
@@ -61,9 +64,11 @@ def sync_gcs_to_local_or_mount(
 
         try:
             subprocess.run(cmd, check=True)
-            print(f"Sync complete. Local data dir: {local_dir.resolve()}")
-            return local_dir.resolve()
-        except FileNotFoundError:
-            raise RuntimeError("gsutil not found. Install Google Cloud SDK or include it in your Docker image.")
+        except FileNotFoundError as e:
+            raise RuntimeError("gsutil not found. Install Google Cloud SDK or include it in your Docker image.") from e
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"gsutil rsync failed with exit code {e.returncode}") from e
+
+        print(f"Sync complete. Local data dir: {local_dir.resolve()}")
+        return local_dir.resolve()
+        # End of sync_gcs_to_local_or_mount
