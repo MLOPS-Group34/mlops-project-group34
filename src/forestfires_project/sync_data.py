@@ -51,9 +51,6 @@ def _is_mountpoint(path: Path) -> bool:
         return False
 
 
-from pathlib import Path
-import subprocess
-
 def sync_gcs_to_local_or_mount(
     gcs_uri: str = "gs://forestfires-data-bucket/data/",
     local_dir: str | Path = "data/",
