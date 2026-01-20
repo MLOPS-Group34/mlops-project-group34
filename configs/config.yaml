@@ -21,11 +21,14 @@ data_sampling:
   random_seed: 42 # For reproducible sampling
 
 hyperparameters:
-  model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
-  epochs: 5
+  model_type: "yolov8n.pt" # YOLO8 Nano - faster and more accurate than v7, can use yolov8s.pt, yolov8m.pt, yolov8l.pt
+  epochs: 50
   batch_size: 32
   img_size: 640
   lr: 0.01
+  patience: 10 # Early stopping - stops if val loss doesn't improve for N epochs
+  fire_confidence: 0.5 # Min confidence threshold for fire detections
+  smoke_confidence: 0.75 # Higher threshold for smoke (less prone to false positives)
   classes:
     0: "fire"
     1: "smoke"

@@ -21,6 +21,7 @@ dependencies = [
     "dvc-gdrive>=3.0.1",
     "dvc-gs>=3.0.2",
     "fastapi==0.115.6",
+    "gsutil>=5.35",
     "ipykernel>=7.1.0",
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
