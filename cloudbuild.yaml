@@ -43,9 +43,10 @@ steps:
     args:
       - 'ai'
       - 'custom-jobs'
-      - 'submit'
+      - 'create'  # Use 'create' instead of 'submit'
       - '--region=europe-west1'
       - '--display-name=forestfire-train-$BUILD_ID'
+      # Machine Type: g2-standard-4 (NVIDIA L4 GPU) is the current standard for this region
       - '--worker-pool-spec=machine-type=g2-standard-4,accelerator-type=nvidia-l4,accelerator-count=1,container-image-uri=europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
     waitFor: ['push-image-id']
 
