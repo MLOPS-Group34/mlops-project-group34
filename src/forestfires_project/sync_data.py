@@ -1,7 +1,6 @@
 import subprocess
 from pathlib import Path
 
-
 def is_running_on_gce():
     """Check if the code is running on a Google Cloud Compute Engine instance."""
     try:
@@ -12,11 +11,6 @@ def is_running_on_gce():
     except FileNotFoundError:
         print("Not running on GCE.")
         return False
-
-
-import subprocess
-from pathlib import Path
-
 
 def is_running_on_gce():
     """Check if the code is running on a Google Cloud Compute Engine instance."""
@@ -32,14 +26,13 @@ def is_running_on_gce():
 
 from pathlib import Path
 import subprocess
-
 
 def sync_gcs_to_local_or_mount(
     gcs_uri: str = "gs://forestfires-data-bucket/data/",
     local_dir: str | Path = "data/",
     mount_dir: str | Path = "/mnt/gcs-bucket",
 ) -> Path:
-    # Ensure the GCS URI ends with a slash
+
     if not gcs_uri.endswith("/"):
         gcs_uri += "/"
 
