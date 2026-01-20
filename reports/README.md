@@ -1,5 +1,11 @@
 ## Overall project checklist
 
+# Returns it to HTML
+'python report.py html'
+
+# Checks the syntax
+'python report.py check'
+
 The checklist is *exhaustive* which means that it includes everything that you could do on the project included in the
 curriculum in this course. Therefore, we do not expect at all that you have checked all boxes at the end of the project.
 The parenthesis at the end indicates what module the bullet point is related to. Please be honest in your answers, we
