@@ -36,6 +36,21 @@ steps:
       - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
     waitFor: ['build-image']
 
+# Step 4: Submit Custom Training Job to Vertex AI
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'trigger-training'
+    entrypoint: 'gcloud'
+    args:
+      - 'ai'
+      - 'custom-jobs'
+      - 'create'
+      - '--region=europe-west1'
+      - '--display-name=forestfire-train-$BUILD_ID'
+      # Machine Type: n1-standard-4 
+      # Accelerator: NVIDIA_TESLA_T4 (Uppercase is mandatory)
+      - '--worker-pool-spec=machine-type=n1-standard-4,accelerator-type=NVIDIA_TESLA_T4,accelerator-count=1,container-image-uri=europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
+    waitFor: ['push-image-id']
+
 # Images to be pushed to Artifact Registry
 images:
   - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
