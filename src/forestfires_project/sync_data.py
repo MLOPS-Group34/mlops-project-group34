@@ -1,108 +1,82 @@
 from __future__ import annotations
 
 import os
-import socket
 import subprocess
 from pathlib import Path
-from typing import Tuple
 from urllib.parse import urlparse
 
 
-def is_running_on_gce() -> bool:
-    try:
-        with socket.create_connection(("169.254.169.254", 80), timeout=0.2):
-            return True
-    except OSError:
-        pass
-
-    try:
-        product_name_path = "/sys/class/dmi/id/product_name"
-        if os.path.exists(product_name_path):
-            with open(product_name_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            if "Google" in content or "Google Compute Engine" in content:
-                return True
-    except OSError:
-        pass
-
-    return False
+MOUNT_DIR_DEFAULT = Path("/mnt/gcs-bucket")
 
 
-def parse_gs_uri(gs_uri: str) -> Tuple[str, str]:
+def parse_gs_uri(gs_uri: str) -> tuple[str, str]:
+    """
+    gs://bucket/prefix/... -> (bucket, prefix_with_trailing_slash_or_empty)
+    """
     u = urlparse(gs_uri)
     if u.scheme != "gs":
-        raise ValueError(f"Expected a gs:// URI, got: {gs_uri!r}")
-
+        raise ValueError(f"Expected gs:// URI, got {gs_uri!r}")
     bucket = u.netloc.strip()
     if not bucket:
-        raise ValueError(f"Missing bucket in gs:// URI: {gs_uri!r}")
-
+        raise ValueError(f"Missing bucket in URI: {gs_uri!r}")
     prefix = u.path.lstrip("/")
     if prefix and not prefix.endswith("/"):
         prefix += "/"
-
     return bucket, prefix
 
 
-def _is_mountpoint(path: Path) -> bool:
+def mount_is_usable(path: Path) -> bool:
+    """
+    True if mount dir exists, is a mountpoint, and we can list it.
+    """
+    if not path.exists():
+        return False
+    if not os.path.ismount(path):
+        return False
     try:
-        return os.path.ismount(path)
+        next(path.iterdir())  # try listing at least one entry
+    except StopIteration:
+        # empty is still usable
+        return True
+    except PermissionError:
+        return False
     except OSError:
         return False
+    return True
 
 
 def sync_gcs_to_local_or_mount(
-    gcs_uri: str = "gs://forestfires-data-bucket/data/",
-    local_dir: str | Path = "data/",
-    mount_dir: str | Path = "/mnt/gcs-bucket",
-    mount_only_prefix: bool = True,
+    gcs_uri: str,
+    local_dir: str | Path,
+    mount_dir: str | Path = MOUNT_DIR_DEFAULT,
 ) -> Path:
-    bucket, prefix = parse_gs_uri(gcs_uri)
+    """
+    If /mnt/gcs-bucket is already mounted and readable, use it.
+    Otherwise fall back to gsutil rsync into local_dir (for local dev).
 
-    if is_running_on_gce():
-        mount_dir = Path(mount_dir)
-        mount_dir.mkdir(parents=True, exist_ok=True)
-
-        if _is_mountpoint(mount_dir):
-            if mount_only_prefix and prefix:
-                return mount_dir.resolve()
-            return (mount_dir / prefix).resolve() if prefix else mount_dir.resolve()
-
-        cmd = ["gcsfuse", "--implicit-dirs"]
-
-        if mount_only_prefix and prefix:
-            cmd += ["--only-dir", prefix.rstrip("/")]
-
-        cmd += [bucket, str(mount_dir)]
-
-        print(f">>> STAGE: MOUNT\nRunning: {' '.join(cmd)}")
-        try:
-            subprocess.run(cmd, check=True)
-        except FileNotFoundError as e:
-            raise RuntimeError("gcsfuse not found in the container. Install gcsfuse in your Docker image.") from e
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"gcsfuse mount failed with exit code {e.returncode}") from e
-
-        mounted_path = mount_dir.resolve()
-
-        if (not mount_only_prefix) and prefix:
-            return (mounted_path / prefix).resolve()
-
-        return mounted_path
-
+    IMPORTANT:
+    - Does NOT run gcsfuse inside the container.
+    - Assumes host VM is responsible for gcsfuse mounting when in cloud.
+    """
+    mount_dir = Path(mount_dir)
     local_dir = Path(local_dir)
     local_dir.mkdir(parents=True, exist_ok=True)
 
-    dest = str(local_dir.resolve()) + "/"
+    bucket, prefix = parse_gs_uri(gcs_uri)
 
+    # 1) Prefer mounted bucket if available
+    if mount_is_usable(mount_dir):
+        # If the host mounted only-dir=data, then mount_dir already IS "data/"
+        # If the host mounted the whole bucket, then we need to append prefix.
+        candidate = mount_dir / prefix if prefix else mount_dir
+        if candidate.exists():
+            return candidate.resolve()
+        # If prefix doesn't exist, still return mount_dir (better than failing)
+        return mount_dir.resolve()
+
+    # 2) Fallback: local sync using gsutil
+    dest = str(local_dir.resolve()) + "/"
     cmd = ["gsutil", "-m", "rsync", "-r", gcs_uri, dest]
     print(f">>> STAGE: SYNC\nRunning: {' '.join(cmd)}")
-    try:
-        subprocess.run(cmd, check=True)
-        return local_dir.resolve()
-    except FileNotFoundError as e:
-        raise RuntimeError(
-            "gsutil not found. Install Google Cloud SDK (gsutil) or include it in your Docker image."
-        ) from e
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"gsutil rsync failed with exit code {e.returncode}") from e
+    subprocess.run(cmd, check=True)
+    return local_dir.resolve()
