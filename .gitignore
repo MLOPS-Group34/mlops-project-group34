@@ -99,6 +99,22 @@ target/
 profile_default/
 ipython_config.py
 
+# Wandb
+/wandb/
+wandb/
+
+
+# Sample files
+test_sampled.txt
+train_sampled.txt
+val_sampled.txt
+
+# Data
+data.yaml
+args.yaml
+results.csv
+
+*.pt
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -174,7 +190,7 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
 
 #data files
 data/processed/test/
@@ -184,4 +200,17 @@ data/processed/val/
 !data/processed/train/.gitkeep
 !data/processed/val/.gitkeep
 !data/samples/
+data/
 
+
+# But DO NOT ignore the DVC metadata files
+!data.dvc
+
+# Ruff cache
+.ruff_cache/
+
+# Test_data_files
+test_data_text.txt
+test_sampled.txt
+train_sampled.txt
+val_sampled.txt

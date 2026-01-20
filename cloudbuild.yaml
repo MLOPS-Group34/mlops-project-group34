@@ -1,0 +1,44 @@
+# Cloud Build configuration for Forest Fire Detection Pipeline
+# Triggers: Push to main branch
+# Actions: Build image → Push to Artifact Registry
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-image'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
+      - '-f'
+      - 'dockerfiles/main.dockerfile'
+      - '.'
+
+  # Step 2: Push image with build ID tag
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-image-id'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
+    waitFor: ['build-image']
+
+  # Step 3: Push image with latest tag
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-image-latest'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
+    waitFor: ['build-image']
+
+# Images to be pushed to Artifact Registry
+images:
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
+
+timeout: 1800s  # 30 minutes

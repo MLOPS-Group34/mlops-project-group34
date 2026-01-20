@@ -2,7 +2,7 @@ names:
 - fire
 - smoke
 nc: 2
-path: C:\Users\45422\Desktop\MLOps\mlops-project-group34
+path: /Users/albertsommerlundmoestrup/Documents/GitHub/mlops-project-group34
 test: test_sampled.txt
 train: train_sampled.txt
 val: val_sampled.txt
