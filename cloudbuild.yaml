@@ -47,41 +47,41 @@ steps:
       - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
     waitFor: ['build-image']
 
-# Step 4: Create a VM, run training, and self-destruct
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'trigger-vm-training'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud compute instances create "forestfire-trainer-$BUILD_ID" \
-          --zone=europe-west1-b \
-          --machine-type=n1-standard-4 \
-          --accelerator=type=nvidia-tesla-t4,count=1 \
-          --image-family=pytorch-2-7-cu128-ubuntu-2204-nvidia-570 \
-           --image-project=deeplearning-platform-release \
-          --maintenance-policy=TERMINATE \
-          --scopes=https://www.googleapis.com/auth/cloud-platform \
-          --metadata=build-id=$BUILD_ID,project-id=$PROJECT_ID,startup-script='#!/bin/bash
-            # 1. Retrieve variables from metadata server
-            export BUILD_ID=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/build-id)
-            export PROJECT_ID=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/project-id)
+# # Step 4: Create a VM, run training, and self-destruct
+#   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#     id: 'trigger-vm-training'
+#     entrypoint: 'bash'
+#     args:
+#       - '-c'
+#       - |
+#         gcloud compute instances create "forestfire-trainer-$BUILD_ID" \
+#           --zone=europe-west1-b \
+#           --machine-type=n1-standard-4 \
+#           --accelerator=type=nvidia-tesla-t4,count=1 \
+#           --image-family=pytorch-2-7-cu128-ubuntu-2204-nvidia-570 \
+#            --image-project=deeplearning-platform-release \
+#           --maintenance-policy=TERMINATE \
+#           --scopes=https://www.googleapis.com/auth/cloud-platform \
+#           --metadata=build-id=$BUILD_ID,project-id=$PROJECT_ID,startup-script='#!/bin/bash
+#             # 1. Retrieve variables from metadata server
+#             export BUILD_ID=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/build-id)
+#             export PROJECT_ID=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/project-id)
 
-            # 2. Wait for system and drivers to stabilize
-            sleep 60
-            
-            # 3. Authenticate Docker to Artifact Registry
-            gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
-            
-            # 4. Pull and Run the image
-            # The --gpus all flag is required to link the T4 to the container
-            docker run --gpus all \
-              europe-west1-docker.pkg.dev/${PROJECT_ID}/docker-repo/forestfires-pipeline:$BUILD_ID
-            
-            # 5. Cleanup: Self-delete the VM
-            # Using the --async flag on delete is safer inside a startup script 
-            # to prevent the VM from hanging while trying to kill itself.
-            gcloud compute instances delete $(hostname) --zone=europe-west1-b --quiet --async'
+#             # 2. Wait for system and drivers to stabilize
+#             sleep 60
+
+#             # 3. Authenticate Docker to Artifact Registry
+#             gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+
+#             # 4. Pull and Run the image
+#             # The --gpus all flag is required to link the T4 to the container
+#             docker run --gpus all \
+#               europe-west1-docker.pkg.dev/${PROJECT_ID}/docker-repo/forestfires-pipeline:$BUILD_ID
+
+#             # 5. Cleanup: Self-delete the VM
+#             # Using the --async flag on delete is safer inside a startup script
+#             # to prevent the VM from hanging while trying to kill itself.
+#             gcloud compute instances delete $(hostname) --zone=europe-west1-b --quiet --async'
 
 
 # Images to be pushed to Artifact Registry
