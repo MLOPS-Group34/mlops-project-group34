@@ -1,68 +1,82 @@
+from __future__ import annotations
+
+import os
 import subprocess
 from pathlib import Path
+from urllib.parse import urlparse
 
 
-def is_running_on_gce():
-    """Check if the code is running on a Google Cloud Compute Engine instance."""
-    try:
-        with open("/sys/class/dmi/id/product_name", "r") as f:
-            print("Checking GCE environment...")
-            return "Google" in f.read()
-            print("GCE environment detected.")
-    except FileNotFoundError:
-        print("Not running on GCE.")
+MOUNT_DIR_DEFAULT = Path("/mnt/gcs-bucket")
+
+
+def parse_gs_uri(gs_uri: str) -> tuple[str, str]:
+    """
+    gs://bucket/prefix/... -> (bucket, prefix_with_trailing_slash_or_empty)
+    """
+    u = urlparse(gs_uri)
+    if u.scheme != "gs":
+        raise ValueError(f"Expected gs:// URI, got {gs_uri!r}")
+    bucket = u.netloc.strip()
+    if not bucket:
+        raise ValueError(f"Missing bucket in URI: {gs_uri!r}")
+    prefix = u.path.lstrip("/")
+    if prefix and not prefix.endswith("/"):
+        prefix += "/"
+    return bucket, prefix
+
+
+def mount_is_usable(path: Path) -> bool:
+    """
+    True if mount dir exists, is a mountpoint, and we can list it.
+    """
+    if not path.exists():
         return False
+    if not os.path.ismount(path):
+        return False
+    try:
+        next(path.iterdir())  # try listing at least one entry
+    except StopIteration:
+        # empty is still usable
+        return True
+    except PermissionError:
+        return False
+    except OSError:
+        return False
+    return True
 
 
 def sync_gcs_to_local_or_mount(
-    gcs_uri: str = "gs://forestfires-data-bucket/data/",
-    local_dir: str | Path = "data/",
-    mount_dir: str | Path = "/mnt/gcs-bucket",
+    gcs_uri: str,
+    local_dir: str | Path,
+    mount_dir: str | Path = MOUNT_DIR_DEFAULT,
 ) -> Path:
-    if not gcs_uri.endswith("/"):
-        gcs_uri += "/"
+    """
+    If /mnt/gcs-bucket is already mounted and readable, use it.
+    Otherwise fall back to gsutil rsync into local_dir (for local dev).
 
-    if is_running_on_gce():
-        # Mount the bucket using gcsfuse
-        mount_dir = Path(mount_dir)
-        mount_dir.mkdir(parents=True, exist_ok=True)
+    IMPORTANT:
+    - Does NOT run gcsfuse inside the container.
+    - Assumes host VM is responsible for gcsfuse mounting when in cloud.
+    """
+    mount_dir = Path(mount_dir)
+    local_dir = Path(local_dir)
+    local_dir.mkdir(parents=True, exist_ok=True)
 
-        cmd = [
-            "gcsfuse",
-            "--implicit-dirs",
-            gcs_uri.replace("gs://", ""),
-            str(mount_dir),
-        ]
-        print(f">>> STAGE: MOUNT\nRunning: {' '.join(cmd)}")
+    bucket, prefix = parse_gs_uri(gcs_uri)
 
-        try:
-            subprocess.run(cmd, check=True)
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(
-                f"gcsfuse mount failed with exit code {e.returncode}"
-            ) from e
-
-        print(f"Bucket mounted at: {mount_dir.resolve()}")
+    # 1) Prefer mounted bucket if available
+    if mount_is_usable(mount_dir):
+        # If the host mounted only-dir=data, then mount_dir already IS "data/"
+        # If the host mounted the whole bucket, then we need to append prefix.
+        candidate = mount_dir / prefix if prefix else mount_dir
+        if candidate.exists():
+            return candidate.resolve()
+        # If prefix doesn't exist, still return mount_dir (better than failing)
         return mount_dir.resolve()
-    else:
-        # Sync the bucket to the local directory
-        local_dir = Path(local_dir)
-        local_dir.mkdir(parents=True, exist_ok=True)
 
-        cmd = ["gsutil", "-m", "rsync", "-r", gcs_uri, str(local_dir) + "/"]
-        print(f">>> STAGE: SYNC\nRunning: {' '.join(cmd)}")
-
-        try:
-            subprocess.run(cmd, check=True)
-        except FileNotFoundError as e:
-            raise RuntimeError(
-                "gsutil not found. Install Google Cloud SDK or include it in your Docker image."
-            ) from e
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(
-                f"gsutil rsync failed with exit code {e.returncode}"
-            ) from e
-
-        print(f"Sync complete. Local data dir: {local_dir.resolve()}")
-        return local_dir.resolve()
-        # End of sync_gcs_to_local_or_mount
+    # 2) Fallback: local sync using gsutil
+    dest = str(local_dir.resolve()) + "/"
+    cmd = ["gsutil", "-m", "rsync", "-r", gcs_uri, dest]
+    print(f">>> STAGE: SYNC\nRunning: {' '.join(cmd)}")
+    subprocess.run(cmd, check=True)
+    return local_dir.resolve()
