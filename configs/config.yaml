@@ -1,7 +1,8 @@
 project_name: "forest_fire_detection"
 wandb_project: "mlops_project_group34"
+
 paths:
-  root_dir: "../" # Relative to configs folder - points to project root
+  root_dir: "../"  # Relative to configs folder - points to project root
   train_images: "data/processed/train/images"
   train_labels: "data/processed/train/labels"
   val_images: "data/processed/val/images"
@@ -11,20 +12,25 @@ paths:
   models_dir: "models"
   logs_dir: "logs"
   reports_dir: "reports/figures"
-  yolo_yaml: "data.yaml" # Generated automatically
+  yolo_yaml: "data.yaml"  # Generated automatically
 
 data_sampling:
-  enabled: true # Set to false to use all data
-  train_samples: 500 # Number of random training images to use (null = use all)
-  val_samples: 100 # Number of random validation images to use (null = use all)
-  test_samples: 50 # Number of random test images to use (null = use all)
-  random_seed: 42 # For reproducible sampling
+  enabled: true
+  train_samples: 500
+  val_samples: 100
+  test_samples: 50
+  random_seed: 42
 
 hyperparameters:
-  model_type: "yolov8n.pt" # Nano model for speed, can use yolov8m.pt or yolov8l.pt
+  model_type: "yolov8n.pt"
   epochs: 5
-  batch_size: 32
-  img_size: 640
+
+  # ↓↓↓ OOM fixes
+  batch_size: 4       # was 32
+  img_size: 512       # was 640 (drop to 416 if still OOM)
+  workers: 0          # helps on small machines; harmless if your code ignores it
+  cache: false        # prevents memory/disk cache behavior; harmless if ignored
+
   lr: 0.01
   classes:
     0: "fire"
