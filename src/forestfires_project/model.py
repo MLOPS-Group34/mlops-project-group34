@@ -67,12 +67,12 @@ class ForestFireYOLO:
         If draw_boxes=True, results include drawn images with bboxes and confidence scores.
         """
         results = self.model.predict(image, conf=conf, verbose=False, save=save)
-        
+
         # Optionally draw boxes on results
         if draw_boxes:
             for result in results:
                 result.plot(conf=True)  # Includes confidence scores on boxes
-        
+
         return results
 
     def load_weights(self, weights_path):

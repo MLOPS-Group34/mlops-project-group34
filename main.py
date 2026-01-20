@@ -1,7 +1,6 @@
 import sys
 import argparse
 from pathlib import Path
-
 from forestfires_project.sync_data import sync_gcs_to_local_or_mount
 from forestfires_project.train import run_training
 from forestfires_project.evaluate import run_evaluation
