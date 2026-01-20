@@ -56,10 +56,24 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     all_results = []
 
     for batch_idx, (images, gt_boxes_batch, img_paths) in enumerate(loader):
-        results = model_wrapper.predict(list(images))
+        # Convert tensor images to numpy for YOLO inference
+        # Use very low conf threshold to capture all predictions (filter later if needed)
+        results = model_wrapper.predict(images, conf=0.01, draw_boxes=False)
 
         for i, result in enumerate(results):
-            pred_boxes = result.boxes.data.cpu().numpy()
+            # Extract predictions with confidence and class info
+            # Format: [x1, y1, x2, y2, conf, class_id]
+            pred_boxes_raw = result.boxes.data.cpu().numpy() if result.boxes is not None else []
+            
+            # Restructure: keep only boxes with format [x1, y1, x2, y2, conf, class_id]
+            pred_boxes = pred_boxes_raw[:, :6] if len(pred_boxes_raw) > 0 else []
+            
+            # Debug: show raw prediction counts
+            if batch_idx == 0 and i == 0:
+                print(f"[DEBUG] First batch: {len(pred_boxes)} boxes detected (conf threshold 0.01)")
+                if len(pred_boxes) > 0:
+                    print(f"[DEBUG] Sample box: {pred_boxes[0]} (conf={pred_boxes[0][4]:.4f})")
+            
             # Calculate average confidence for this image
             avg_conf = pred_boxes[:, 4].mean() if len(pred_boxes) > 0 else 0.0
             max_conf = pred_boxes[:, 4].max() if len(pred_boxes) > 0 else 0.0
@@ -123,3 +137,14 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
         plt.close()
 
         print(f"Visualization {grid_idx + 1}/4 saved to {output_path}")
+
+
+if __name__ == "__main__":
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Visualize forest fire detection predictions")
+    parser.add_argument("--config", type=str, default="configs/config.yaml", help="Path to config file")
+    parser.add_argument("--model_path", type=str, default=None, help="Path to model weights (optional, uses best.pt if not provided)")
+    args = parser.parse_args()
+    
+    run_visualization(config_path=args.config, model_path=args.model_path)

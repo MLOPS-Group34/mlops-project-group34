@@ -15,7 +15,7 @@ paths:
   yolo_yaml: "data.yaml"  # Generated automatically
 
 data_sampling:
-  enabled: true
+  enabled: false          # Use all train/val samples
   train_samples: 500
   val_samples: 100
   test_samples: 50
@@ -23,16 +23,21 @@ data_sampling:
 
 hyperparameters:
   model_type: "yolov8n.pt"
-  epochs: 5
+  epochs: 50              # Overnight training on CPU
 
-  # ↓↓↓ OOM fixes
-  batch_size: 4       # was 32
-  img_size: 512       # was 640 (drop to 416 if still OOM)
-  workers: 0          # helps on small machines; harmless if your code ignores it
-  cache: false        # prevents memory/disk cache behavior; harmless if ignored
+  # Core training params
+  batch_size: 4
+  img_size: 640           # High quality, detect small fires/smoke
+  workers: 0
+  cache: false
 
-  lr: 0.01
+  # Learning & optimization
+  lr: 0.01                # Learning rate
+  momentum: 0.937         # SGD momentum
+  weight_decay: 0.0005    # L2 regularization
+  warmup_epochs: 3        # Gradual warmup for stability
+  patience: 5             # Early stopping patience (stop if no improvement for 5 epochs)
+  
   classes:
     0: "fire"
     1: "smoke"
-    # Add more classes a
