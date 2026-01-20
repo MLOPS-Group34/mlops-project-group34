@@ -56,7 +56,6 @@ def sync_gcs_to_local_or_mount(
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"gcsfuse mount failed with exit code {e.returncode}") from e
     else:
-        # Sync the bucket to the local directory using gsutil
         local_dir = Path(local_dir)
         local_dir.mkdir(parents=True, exist_ok=True)
 
