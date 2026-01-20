@@ -3,6 +3,6 @@ names:
 - smoke
 nc: 2
 path: C:\Users\45422\Desktop\MLOps\mlops-project-group34
-test: test_sampled.txt
-train: train_sampled.txt
-val: val_sampled.txt
+test: data/processed/test/images
+train: data/processed/train/images
+val: data/processed/val/images

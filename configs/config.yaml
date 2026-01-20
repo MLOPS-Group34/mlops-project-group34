@@ -23,7 +23,7 @@ data_sampling:
 
 hyperparameters:
   model_type: "yolov8n.pt"
-  epochs: 50              # Overnight training on CPU
+  epochs: 20              # Overnight training on CPU
 
   # Core training params
   batch_size: 4
