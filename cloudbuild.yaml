@@ -52,14 +52,19 @@ steps:
           --maintenance-policy=TERMINATE \
           --scopes=https://www.googleapis.com/auth/cloud-platform \
           --metadata=startup-script='#!/bin/bash
-            # 1. Authenticate Docker to pull from Artifact Registry
+            # 1. Wait for NVIDIA drivers to be ready (Standard practice for GPU VMs)
+            sleep 30
+            
+            # 2. Authenticate Docker to Artifact Registry
             gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
             
-            # 2. Pull and Run your specific build image
+            # 3. Pull and Run your specific build image
+            # Note: --gpus all allows the container to see the T4 chip
             docker run --gpus all \
               europe-west1-docker.pkg.dev/${PROJECT_ID}/docker-repo/forestfires-pipeline:$BUILD_ID
             
-            # 3. SELF-DESTRUCT: Shut down and delete this VM when training is done
+            # 4. SELF-DESTRUCT: Shut down and delete this VM when training is done
+            # This ensures you only pay for the training time
             gcloud compute instances delete $(hostname) --zone=europe-west1-b --quiet'
 
 # Images to be pushed to Artifact Registry
