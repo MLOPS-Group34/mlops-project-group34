@@ -36,20 +36,31 @@ steps:
       - 'europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:latest'
     waitFor: ['build-image']
 
-# Step 4: Submit Custom Training Job to Vertex AI
+# Step 4: Create a VM, run training, and self-destruct
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'trigger-training'
-    entrypoint: 'gcloud'
+    id: 'trigger-vm-training'
+    entrypoint: 'bash'
     args:
-      - 'ai'
-      - 'custom-jobs'
-      - 'create'
-      - '--region=europe-west1'
-      - '--display-name=forestfire-train-$BUILD_ID'
-      # Machine Type: n1-standard-4 
-      # Accelerator: NVIDIA_TESLA_T4 (Uppercase is mandatory)
-      - '--worker-pool-spec=machine-type=n1-standard-4,accelerator-type=NVIDIA_TESLA_T4,accelerator-count=1,container-image-uri=europe-west1-docker.pkg.dev/$PROJECT_ID/docker-repo/forestfires-pipeline:$BUILD_ID'
-    waitFor: ['push-image-id']
+      - '-c'
+      - |
+        gcloud compute instances create "forestfire-trainer-$BUILD_ID" \
+          --zone=europe-west1-b \
+          --machine-type=n1-standard-4 \
+          --accelerator=type=nvidia-tesla-t4,count=1 \
+          --image-family=common-cu121-debian-11-py310 \
+          --image-project=deeplearning-platform-release \
+          --maintenance-policy=TERMINATE \
+          --scopes=https://www.googleapis.com/auth/cloud-platform \
+          --metadata=startup-script='#!/bin/bash
+            # 1. Authenticate Docker to pull from Artifact Registry
+            gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+            
+            # 2. Pull and Run your specific build image
+            docker run --gpus all \
+              europe-west1-docker.pkg.dev/${PROJECT_ID}/docker-repo/forestfires-pipeline:$BUILD_ID
+            
+            # 3. SELF-DESTRUCT: Shut down and delete this VM when training is done
+            gcloud compute instances delete $(hostname) --zone=europe-west1-b --quiet'
 
 # Images to be pushed to Artifact Registry
 images:
