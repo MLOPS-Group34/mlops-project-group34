@@ -35,4 +35,4 @@ hyperparameters:
   classes:
     0: "fire"
     1: "smoke"
-    # Add more classes a
+    # Add more classes a pulls needed

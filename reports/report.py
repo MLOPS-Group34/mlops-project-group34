@@ -81,10 +81,10 @@ def html() -> None:
     # Always read from the reports directory where this script is located
     reports_dir = Path(__file__).parent
     readme_path = reports_dir / "README.md"
-    
+
     with readme_path.open() as file:
         text = file.read()
-    
+
     # Remove the intro section up to the first main section (## Overall project checklist)
     if "## Overall project checklist" in text:
         text = text.split("## Overall project checklist", 1)[1]
