@@ -20,7 +20,7 @@ def test_device_endpoint():
 
 def test_predict_endpoint():
     # Get a random image from the folder
-    folder_path = "data/processed/test/images"
+    folder_path = "data/samples/images"
     image_files = [f for f in os.listdir(folder_path) if f.endswith((".jpg", ".jpeg", ".png"))]
     assert image_files, "No image files found in the folder"
 
