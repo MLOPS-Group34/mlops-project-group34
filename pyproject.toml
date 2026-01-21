@@ -22,7 +22,7 @@ dependencies = [
     "coverage>=7.6.9",
     "dvc-gdrive>=3.0.1",
     "dvc-gs>=3.0.2",
-    "fastapi==0.115.6",
+    "fastapi==0.128.0",
     "gsutil>=5.35",
     "ipykernel>=7.1.0",
     "loguru>=0.7.3",
