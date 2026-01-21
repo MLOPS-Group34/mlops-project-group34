@@ -50,13 +50,9 @@ st.title("🔥 Inference Dashboard")
 # Sidebar
 with st.sidebar:
     st.header("Settings")
-    
-    config_path = st.text_input(
-        "Config Path",
-        value="configs/config.yaml",
-        help="Path to the YAML config file"
-    )
-    
+
+    config_path = st.text_input("Config Path", value="configs/config.yaml", help="Path to the YAML config file")
+
     st.divider()
     st.subheader("About")
     st.markdown(
@@ -80,15 +76,15 @@ tab1, tab2 = st.tabs(["📸 Prediction Gallery", "⚙️ Generate New Samples"])
 
 with tab1:
     st.header("Prediction Grids")
-    
+
     # Import visualization function
     from forestfires_project.visualize import run_visualization
-    
+
     # Get available grid images
     reports_dir = project_root / "reports" / "figures"
-    
+
     col1, col2, col3 = st.columns(3)
-    
+
     with col1:
         st.metric("Current Grid", f"{st.session_state.current_grid}/4")
     with col2:
@@ -97,42 +93,42 @@ with tab1:
         st.metric("Available Grids", len(grid_files))
     with col3:
         st.metric("Images per Grid", "6")
-    
+
     st.divider()
-    
+
     # Display grid image
     if len(grid_files) > 0:
         grid_idx = st.session_state.current_grid - 1
-        
+
         if grid_idx < len(grid_files):
             grid_path = grid_files[grid_idx]
             st.image(
                 str(grid_path),
                 caption=f"Prediction Grid {st.session_state.current_grid} - Top 6 Predictions by Confidence",
-                width='stretch',
+                width="stretch",
             )
-            
+
             # Navigation buttons
             nav_col1, nav_col2, nav_col3, nav_col4 = st.columns(4)
-            
+
             with nav_col1:
                 if st.button("⬅️ Previous Grid", use_container_width=True):
                     if st.session_state.current_grid > 1:
                         st.session_state.current_grid -= 1
                         st.rerun()
-            
+
             with nav_col2:
                 st.write("")  # Spacer
-            
+
             with nav_col3:
                 st.write("")  # Spacer
-            
+
             with nav_col4:
                 if st.button("Next Grid ➡️", use_container_width=True):
                     if st.session_state.current_grid < len(grid_files):
                         st.session_state.current_grid += 1
                         st.rerun()
-            
+
             # Grid selector
             st.divider()
             selected_grid = st.slider(
@@ -152,7 +148,7 @@ with tab1:
 
 with tab2:
     st.header("Generate New Prediction Grids")
-    
+
     st.markdown(
         """
         Click the button below to run inference on the test set and generate new prediction grids.
@@ -167,12 +163,12 @@ with tab2:
         **Note:** This may take a few minutes depending on your hardware.
         """
     )
-    
+
     st.divider()
-    
+
     # Generate button
     col1, col2, col3 = st.columns([1, 1, 1])
-    
+
     with col2:
         if st.button(
             "🚀 Generate New Samples",
@@ -182,32 +178,32 @@ with tab2:
         ):
             st.session_state.is_generating = True
             st.rerun()
-    
+
     # Processing logic
     if st.session_state.is_generating:
         try:
             with st.spinner("🔄 Running inference and generating prediction grids..."):
                 # Run visualization
                 run_visualization(config_path=config_path)
-            
+
             st.session_state.is_generating = False
             st.session_state.generation_complete = True
             st.session_state.current_grid = 1  # Reset to first grid
-            
+
             st.success("✅ Prediction grids generated successfully!")
             st.balloons()
             st.rerun()
-        
+
         except FileNotFoundError as e:
             st.session_state.is_generating = False
             st.error(f"❌ File not found: {str(e)}")
             st.info("Make sure your config path is correct and model weights exist.")
-        
+
         except Exception as e:
             st.session_state.is_generating = False
             st.error(f"❌ An error occurred: {str(e)}")
             st.info("Check the console for more details or verify your setup.")
-    
+
     # Info box
     if st.session_state.generation_complete:
         st.info("Generation completed! Check the 'Prediction Gallery' tab to view results.")
