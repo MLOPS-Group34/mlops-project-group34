@@ -10,15 +10,6 @@ DEFAULT_MOUNT_DIR = Path("/mnt/gcs-bucket")
 
 
 def parse_gs_uri(gs_uri: str) -> tuple[str, str]:
-    """
-    Parse GCS URI:
-      gs://bucket
-      gs://bucket/
-      gs://bucket/data
-      gs://bucket/data/
-
-    Returns (bucket, prefix) where prefix has trailing slash or is "".
-    """
     u = urlparse(gs_uri)
     if u.scheme != "gs":
         raise ValueError(f"Expected gs:// URI, got: {gs_uri!r}")
@@ -65,7 +56,6 @@ def sync_gcs_to_local_or_mount(
     Cloud/VM workflow (recommended):
       - GCS bucket is mounted on the VM host at /mnt/gcs-bucket (via gcsfuse)
       - Docker bind-mounts that into container: -v /mnt/gcs-bucket:/mnt/gcs-bucket
-      - This function MUST NOT run gcsfuse inside the container.
 
     Local workflow:
       - If no readable mount exists, fallback to: gsutil -m rsync -r gs://... local_dir
@@ -85,10 +75,7 @@ def sync_gcs_to_local_or_mount(
         # B) Host mounted whole bucket -> data is under mount_dir/prefix
         candidate = (mount_dir / prefix) if prefix else mount_dir
 
-        # If host mounted only-dir=data and prefix=="data/", then candidate becomes mount_dir/"data/"
-        # That won't exist, so handle that:
         if not candidate.exists() and prefix:
-            # If prefix is like "data/", and mount_dir already IS that folder, use mount_dir
             if prefix.rstrip("/") in ("data",):
                 return mount_dir.resolve()
 

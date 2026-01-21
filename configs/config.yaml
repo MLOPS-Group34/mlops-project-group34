@@ -15,11 +15,11 @@ paths:
   yolo_yaml: "data.yaml"  # Generated automatically
 
 data_sampling:
-  enabled: false          # Use all train/val samples
-  train_samples: 500
-  val_samples: 100
-  test_samples: 50
-  random_seed: 42
+  enabled: false # Set to false to use all data
+  train_samples: null # Number of random training images to use (null = use all)
+  val_samples: null # Number of random validation images to use (null = use all)
+  test_samples: null # Number of random test images to use (null = use all)
+  random_seed: 42 # For reproducible sampling
 
 hyperparameters:
   model_type: "yolov8n.pt"
