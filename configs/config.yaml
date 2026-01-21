@@ -15,9 +15,9 @@ paths:
 
 data_sampling:
   enabled: true # Set to false to use all data
-  train_samples: 500 # Number of random training images to use (null = use all)
-  val_samples: 100 # Number of random validation images to use (null = use all)
-  test_samples: 50 # Number of random test images to use (null = use all)
+  train_samples: null # Number of random training images to use (null = use all)
+  val_samples: null # Number of random validation images to use (null = use all)
+  test_samples: null # Number of random test images to use (null = use all)
   random_seed: 42 # For reproducible sampling
 
 hyperparameters:
