@@ -95,7 +95,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- s223887, s214422, s214374, KAMMA ---
+--- s223887, s214422, s214374, s214698 ---
 
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
@@ -109,7 +109,10 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+--- In our project, we utilized OpenCV and the YOLOv5 framework to implement our hybrid detection logic. While the course provided the foundation for MLOps infrastructure, these specific packages were needed in solving the challenges of fire and smoke detection.
+
+
+Additionally, we utilized the YOLOv5 open-source repository as our spatial detection. We used its pre-trained weights and specialized training scripts to perform transfer learning on the Fire-D dataset. By leveraging its built-in functionality for bounding box regression and object classification, we were able to create a candidate generator that served as the first stage of our hybrid pipeline, allowing us to focus our efforts on the MLOps integration and temporal verification logic. ---
 
 ## Coding environment
 
@@ -129,7 +132,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+--- We used uv for dependency management and environment isolation. Our dependencies are defined in a pyproject.toml file, while the exact versions and hashes of every package are pinned in a uv.lock file. This setup ensures that our environment is deterministic, preventing the "it works on my machine" problem across different collaborators. To get an exact copy of the development environment, a new team member would only need to have uv installed and run the uv sync command from the project root. This single command performs several actions: it automatically creates a virtual environment in a .venv folder, installs the exact versions specified in the lockfile, and synchronizes the environment to match the project definition. To activate tools like ruff or dvc, you can use uv run <command> to ensure that executions remain within the project's locked dependencies ---
 
 ### Question 5
 
@@ -145,7 +148,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+--- Our project structure follows the provided cookiecutter template, which we have populated and adapted to support our hybrid detection logic and GCS integration. We filled out the src/forestfires_project folder with core logic for data processing, training, and evaluation, and used the configs/ directory to manage configurations. The tests/ folder was fully implemented to test different parts of our code. We introduced .dvc files and a data/ hierarchy to manage our large Fire-D dataset via DVC, however this is only visible once the data has been pulled from GCS. The dockerfolder contains our dockerfile which is automaticcaly built upon pushing to the mainbranch on GitHub. The runs folder includes the WANDB logging if the model is run locally, however this is not tracked by GitHub. ---
 
 ### Question 6
 
@@ -160,7 +163,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 6 fill here ---
+--- We implemented Ruff for both linting and code formatting, managed via pre-commit hooks to ensure all code adheres to PEP8 standards before entering the repository. To maintain these standards automatically, we established a GitHub Actions pipeline that runs ruff check and ruff format --check on every pull request. We also implemented a specialized "Pre-commit auto-update" workflow to keep our linting tools current. For documentation, we used MkDocs creating a guide covering W&B integration and migration logs.
+
+ In a team-based environment like ours, automated formatting helps streamline our coding syntax, while linting catches logic errors (like unused variables) early. This consistency is crucial in a robust MLOps pipeline, ensuring that the project remains scalable as new temporal verification techniques are added. ---
 
 ## Version control
 
@@ -179,7 +184,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 7 fill here ---
+--- We have implemented a suite of1 core unit tests targeting the most critical components of our pipeline: data integrity and model functionality. We have three tests that ensures that our visualization, evaluation and training procedures work correctly. The 4 data tests validate our FireDataset class, ensuring correct PyTorch Dataset initialization, verifying that input images adhere to the required $(640, 640, 3)$ tensor shape, and confirming that label indices are within the valid $\{0, 1\}$ range for fire and smoke. The 3 model tests verify our ForestFireYOLO wrapper, ensuring the YOLOv8 initializes correctly via our configuration, weights can be loaded dynamically, and the prediction method returns the expected output formats when processing image data. These tests are integrated into our GitHub Actions matrix, running across multiple operating systems and Python versions to guarantee environment-agnostic reliability.---
 
 ### Question 8
 
@@ -194,7 +199,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 8 fill here ---
+--- The total code coverage of our project is currently 46%. While critical components such as our training (83%) and evaluation (87%) scripts have high coverage, the overall percentage is lowered by utility modules like sync_data.py (0%) and visualize.py (54%). Even if we achieved 100% code coverage, we would not trust the code to be entirely error-free. Code coverage is a measure of which lines are executed, not a measure of logic correctness or robustness. In ML pipelines, code might run without crashing but produce scientifically incorrect results that coverage metrics cannot detect. Individual units might pass, but the interaction between DVC, GCS, and the YOLOv8 backbone could still fail in a production environment.---
 
 ### Question 9
 
@@ -209,7 +214,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 9 fill here ---
+--- We made consistent use of branches and pull requests to manage our collaboration. Each team member worked on dedicated branches to ensure that the main branch remained a stable "production" environment. Some members preferred to build multiple features in one branch and some preferred to have each branch represent a feature implementation
+
+In the early stages of the project, we encountered a few hiccups where some members committed directly to the main branch, leading to minor synchronization issues. However, we quickly resolved this by establishing a clear workflow: code could only be merged into main via a PR that required a successful pass of our automated CI pipeline.
+
+This process became significantly more stable once we integrated our Ruff linting and unit testing suites into GitHub Actions. These automated checks acted as a safety net, catching formatting errors and broken tests. This transition from manual oversight to automated validation allowed us to collaborate confidently without fear of breaking the shared codebase. ---
 
 ### Question 10
 
@@ -241,7 +250,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 11 fill here ---
+--- We set up our continuous integration by breaking it down into three focused GitHub Actions, which helps keep our feedback loops fast and our main branch stable. We moved everything over to uv for these workflows because it’s much faster than standard pip and handles the environment synchronization perfectly. The first part of the setup is our linting and formatting check. Every time someone pushes code or opens a PR, Ruff runs automatically to keep the code style consistent. To make sure the project actually works for all collaborators, we implemented a matrix strategy in our testing workflow. This means every test runs across Ubuntu, Windows, and macOS, using both Python 3.11 and 3.12. Since we’re working with PyTorch and OpenCV, which can be picky about the operating system, this cross-platform check is important. We also track our code coverage within this step to see which parts of the data and model logic are being hit. Beyond standard CI, we also integrated Google Cloud Build to handle our "automatic docking" or containerization process. Whenever we push to the main branch, Cloud Build automatically pulls our previous image for layer caching, builds a new container from our main.dockerfile, and pushes it to the Google Artifact Registry. We even have the infrastructure ready (currently commented out for cost management) to spin up a GPU-enabled VM, run a full training job, and self-destruct once finished. This ensures our environment is fully reproducible from code to container. You can see an example of our testing pipeline in action here: https://github.com/MLOPS-Group34/mlops-project-group34/actions/workflows/tests.yaml ---
 
 ## Running code and tracking experiments
 
