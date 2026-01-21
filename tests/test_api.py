@@ -17,6 +17,7 @@ def test_device_endpoint():
     assert response.status_code == 200
     assert "cuda" in response.json()["device"] or "cpu" in response.json()["device"]
 
+
 def test_predict_endpoint():
     # Get a random image from the folder
     folder_path = "data/processed/test/images"
