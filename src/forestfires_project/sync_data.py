@@ -10,7 +10,6 @@ DEFAULT_MOUNT_DIR = Path("/mnt/gcs-bucket")
 
 
 def parse_gs_uri(gs_uri: str) -> tuple[str, str]:
-
     u = urlparse(gs_uri)
     if u.scheme != "gs":
         raise ValueError(f"Expected gs:// URI, got: {gs_uri!r}")
