@@ -2,8 +2,8 @@ import logging
 from torch.utils.data import Dataset
 from forestfires_project.data import FireDataset
 
-img_path = "data/processed/test/images"
-label_path = "data/processed/test/labels"
+img_path = "data/samples/test/images"
+label_path = "data/samples/test/labels"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,7 +31,7 @@ def test_dataset_length():
         classes={0: "fire", 1: "smoke"},
     )
     logging.info(f"Dataset length: {len(dataset)}")
-    min_expected_length = 300  # Change as needed
+    min_expected_length = 10  # Change as needed
     assert len(dataset) >= min_expected_length, f"Dataset too small: {len(dataset)}"
 
 
