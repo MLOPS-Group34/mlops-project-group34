@@ -76,11 +76,13 @@ def run_evaluation(config_path="configs/config.yaml", model_path=None, use_wandb
 
 if __name__ == "__main__":
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Evaluate forest fire detection model")
     parser.add_argument("--config", type=str, default="configs/config.yaml", help="Path to config file")
-    parser.add_argument("--model_path", type=str, default=None, help="Path to model weights (optional, uses best.pt if not provided)")
+    parser.add_argument(
+        "--model_path", type=str, default=None, help="Path to model weights (optional, uses best.pt if not provided)"
+    )
     parser.add_argument("--no_wandb", action="store_true", help="Disable wandb logging")
     args = parser.parse_args()
-    
+
     run_evaluation(config_path=args.config, model_path=args.model_path, use_wandb=not args.no_wandb)
