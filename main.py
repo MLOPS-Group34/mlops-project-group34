@@ -1,11 +1,12 @@
 import sys
 import argparse
 from pathlib import Path
+import uvicorn
+
 from forestfires_project.sync_data import sync_gcs_to_local_or_mount
 from forestfires_project.train import run_training
 from forestfires_project.evaluate import run_evaluation
 from forestfires_project.visualize import run_visualization
-
 
 # Add src directory to path for imports
 project_root = Path(__file__).parent
@@ -18,7 +19,7 @@ def main():
         "--pipeline",
         type=str,
         default="all",
-        choices=["sync", "train", "evaluate", "visualize", "all"],
+        choices=["sync", "train", "evaluate", "visualize", "api", "all"],
         help="Choose pipeline stage",
     )
     parser.add_argument("--config", type=str, default="configs/config.yaml", help="Path to config file")
@@ -51,6 +52,10 @@ def main():
     if args.pipeline in ["visualize", "all"]:
         print(">>> STAGE: VISUALIZATION")
         run_visualization(config_path=args.config, model_path=model_path)
+
+    if args.pipeline == "api":
+        print(">>> STAGE: STARTING API")
+        uvicorn.run("forestfires_project.api:app", host="0.0.0.0", port=8000, reload=True)
 
 
 if __name__ == "__main__":
