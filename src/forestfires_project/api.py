@@ -3,6 +3,9 @@ from ultralytics import YOLO
 from PIL import Image
 import io
 import torch
+from fastapi.responses import StreamingResponse
+import numpy as np
+import cv2
 
 app = FastAPI(title="YOLO Inference API")
 
@@ -106,9 +109,6 @@ def device_info():
         "device": "cuda" if torch.cuda.is_available() else "cpu",
     }
 
-from fastapi.responses import StreamingResponse
-import numpy as np
-import cv2
 
 @app.post("/predict/image")
 async def predict_image(
@@ -140,9 +140,7 @@ async def predict_image(
 
         # Draw boxes
         if r.boxes is not None:
-            for box, score, cls_id in zip(
-                r.boxes.xyxy, r.boxes.conf, r.boxes.cls
-            ):
+            for box, score, cls_id in zip(r.boxes.xyxy, r.boxes.conf, r.boxes.cls):
                 x1, y1, x2, y2 = map(int, box.tolist())
                 cls_id = int(cls_id)
                 label = f"{names[cls_id]} {score:.2f}"
