@@ -233,7 +233,7 @@ This process became significantly more stable once we integrated our Ruff lintin
 >
 > Answer:
 
---- question 10 fill here ---
+--- We integrated DVC into our project to manage our image datasets, which were stored in a Google Cloud Storage (GCS) bucket.. By configuring a remote at gs://forestfires-data-bucket/data, we were able to keep bulky image files out of our Git repository while still maintaining full version control over them. We did not utilize the version control part that much, since we did not have time for training on different data sets. However, the capability is integrated, so in theory we should get a new .dvc pointer file every time we change our data. Another nice use case of DVC would be to roll back to a previous data "state", for example if we happened to get errors with a new dataset. ---
 
 ### Question 11
 
@@ -354,7 +354,9 @@ Regarding performance, we did not perform extensive profiling of the core traini
 >
 > Answer:
 
---- question 17 fill here ---
+--- Our project leveraged four Google Cloud Platform services to automate our MLOps workflow. We used Cloud Storage buckets to store our datasets, which proved to be advantageous since we could mount our data directly. For computation, we utilized Compute Engine to provision VM instances that handled our training and evaluation pipelines in a cloud-based environment.
+
+To manage our environments, Artifact Registry served as a secure repository for our Docker containers, ensuring our code ran in the same conditions across all stages. Finally, we used Cloud Build to handle our CI/CD; it automatically triggered whenever we pushed to the main branch, building new images and pushing them to the registry. This setup ensured that our infrastructure always had immediate access to the latest code and data. ---
 
 ### Question 18
 
