@@ -302,7 +302,9 @@ Cloud build trigger: https://github.com/MLOPS-Group34/mlops-project-group34/runs
 >
 > Answer:
 
---- question 14 fill here ---
+--- As seen in the screenshot (figures/wandb.png), we used Weights & Biases (W&B) to track our training progress, specifically monitoring core loss components like box_loss, cls_loss, and dfl_loss. These metrics are vital for ensuring the YOLOv8 architecture accurately locates and classifies fire and smoke. While we had some trouble getting the custom visualization graphs to display exactly as we wanted, W&B was great for tracking our experiment metadata.
+
+Even without the perfected visualizations, the platform correctly captured our entire configuration and the specific yolov8n.pt model type. It also tracked the final performance metrics. Most importantly, W&B logged our project files and system environment, ensuring that every run was traceable and reproducible despite the visualization hurdles. ---
 
 ### Question 15
 
