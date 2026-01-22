@@ -459,8 +459,7 @@ Regarding performance, we did not perform extensive profiling of the core traini
 >
 > Answer:
 
---- question 25 fill here ---
-
+We performed unit testing for our API using pytest to ensure the endpoints functioned correctly. These tests included verifying the response status codes, validating the input/output structure, and checking error handling for invalid requests. We tested the /predict endpoint to confirm it returned predictions in the expected format when provided with valid input data.  For load testing we used locust. We simulated concurrent users sending requests to the API to measure its performance under stress. The results showed that the API could handle up to 50 requests per second with an average response time of 200ms before performance degraded. Beyond this threshold, response times increased significantly, indicating the need for further optimization or scaling strategies.
 ### Question 26
 
 > **Did you manage to implement monitoring of your deployed model? If yes, explain how it works. If not, explain how**
