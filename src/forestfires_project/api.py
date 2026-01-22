@@ -6,6 +6,7 @@ import torch
 from fastapi.responses import StreamingResponse
 import numpy as np
 import cv2
+import psutil
 
 app = FastAPI(title="YOLO Inference API")
 
@@ -166,3 +167,27 @@ async def predict_image(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/metrics")
+def get_system_metrics():
+    try:
+        metrics = {
+            "cpu_usage_percent": psutil.cpu_percent(interval=1),
+            "memory": {
+                "total": psutil.virtual_memory().total,
+                "available": psutil.virtual_memory().available,
+                "used": psutil.virtual_memory().used,
+                "percent": psutil.virtual_memory().percent,
+            },
+            "disk": {
+                "total": psutil.disk_usage("/").total,
+                "used": psutil.disk_usage("/").used,
+                "free": psutil.disk_usage("/").free,
+                "percent": psutil.disk_usage("/").percent,
+            },
+            "uptime_seconds": psutil.boot_time(),
+        }
+        return metrics
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve metrics: {e}")
