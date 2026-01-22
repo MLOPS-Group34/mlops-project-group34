@@ -270,7 +270,7 @@ Cloud build trigger: https://github.com/MLOPS-Group34/mlops-project-group34/runs
 >
 > Answer:
 
---- question 12 fill here ---
+--- We managed our experiments using a combination of YAML configuration files and a Python argparse wrapper. This allowed us to maintain a "base" configuration for our environment paths and stable hyperparameters while still enabling quick adjustments during runtime. For every run, our train.py script loads the config.yaml file to define data paths and default training settings. However, we implemented an override system so that critical hyperparameters can be tweaked directly from the terminal. uv run src/forestfires_project/train.py --lr 0.005 --batch_size 2 --epochs 10 ---
 
 ### Question 13
 
@@ -285,7 +285,7 @@ Cloud build trigger: https://github.com/MLOPS-Group34/mlops-project-group34/runs
 >
 > Answer:
 
---- question 13 fill here ---
+--- To ensure full reproducibility and prevent information loss, we integrated our configuration system directly with Weights & Biases (W&B) and DVC. Whenever an experiment is launched via our train.py script, the entire resolved YAML configuration—including any command-line overrides for learning rate or batch size—is uploaded to the W&B cloud. This creates a permanent record of the exact hyperparameters and system environment used for that specific run. Most of the time we just needed to run a few configurations. Due to the absence of GPU power, we were very limited in how much we could train. Unfortunately Google Cloud wouldn't allow us to start any GPU powered machines. ---
 
 ### Question 14
 
@@ -317,7 +317,9 @@ Cloud build trigger: https://github.com/MLOPS-Group34/mlops-project-group34/runs
 >
 > Answer:
 
---- question 15 fill here ---
+--- We used Docker to ensure our hybrid fire detection system remains fully portable and reproducible across both local development and Google Cloud environments. Our main.dockerfile acts as the primary engine for the full pipeline, bundling everything needed for data synchronization, training, and evaluation. By using a python:3.11-slim base and integrating uv, we kept our image sizes manageable while ensuring that all system-level dependencies for OpenCV and Google Cloud SDK were correctly baked into the environment.
+
+To automate our deployment, we set up a Google Cloud Build trigger linked to our GitHub repository. This basically creates a fully automated CI/CD pipeline: every time code is pushed to the main branch, Cloud Build automatically executes our cloudbuild.yaml instructions. It pulls the previous image to leverage layer caching, builds a fresh image tagged with the unique $BUILD_ID, and pushes it to the Google Artifact Registry. This "automatic docking" ensures our production-ready container is always in sync with our latest stable code without any manual steps. Link to docker file: https://github.com/MLOPS-Group34/mlops-project-group34/blob/main/dockerfiles/main.dockerfile ---
 
 ### Question 16
 
