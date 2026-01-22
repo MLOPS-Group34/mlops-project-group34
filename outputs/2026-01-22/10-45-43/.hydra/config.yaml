@@ -1,0 +1,38 @@
+project_name: forest_fire_detection
+wandb_project: mlops_project_group34
+paths:
+  root_dir: ../
+  train_images: data/processed/train/images
+  train_labels: data/processed/train/labels
+  val_images: data/processed/val/images
+  val_labels: data/processed/val/labels
+  test_images: data/processed/test/images
+  test_labels: data/processed/test/labels
+  models_dir: models
+  logs_dir: logs
+  reports_dir: reports/figures
+  yolo_yaml: data.yaml
+data_sampling:
+  enabled: false
+  train_samples: null
+  val_samples: null
+  test_samples: null
+  random_seed: 42
+hyperparameters:
+  model_type: yolov8n.pt
+  epochs: 50
+  batch_size: 8
+  img_size: 640
+  workers: 0
+  cache: false
+  lr: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3
+  patience: 5
+  classes:
+    0: fire
+    1: smoke
+pipeline: train
+gcs_uri: gs://forestfires-data-bucket/data/
+local_data_dir: data/
