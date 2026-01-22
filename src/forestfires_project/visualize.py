@@ -58,7 +58,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     for batch_idx, (images, gt_boxes_batch, img_paths) in enumerate(loader):
         # Convert tensor images to numpy for YOLO inference
         # Use conf threshold to filter predictions
-        results = model_wrapper.predict(images, conf=0.1, draw_boxes=False)
+        results = model_wrapper.predict(images, conf=0.3, draw_boxes=False)
 
         for i, result in enumerate(results):
             # Extract predictions with confidence and class info
@@ -70,7 +70,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
 
             # Debug: show raw prediction counts
             if batch_idx == 0 and i == 0:
-                print(f"[DEBUG] First batch: {len(pred_boxes)} boxes detected (conf threshold 0.01)")
+                print(f"[DEBUG] First batch: {len(pred_boxes)} boxes detected (conf threshold 0.3)")
                 if len(pred_boxes) > 0:
                     print(f"[DEBUG] Sample box: {pred_boxes[0]} (conf={pred_boxes[0][4]:.4f})")
 
