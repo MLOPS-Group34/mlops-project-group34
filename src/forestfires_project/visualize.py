@@ -57,8 +57,8 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
 
     for batch_idx, (images, gt_boxes_batch, img_paths) in enumerate(loader):
         # Convert tensor images to numpy for YOLO inference
-        # Use very low conf threshold to capture all predictions (filter later if needed)
-        results = model_wrapper.predict(images, conf=0.01, draw_boxes=False)
+        # Use conf threshold to filter predictions
+        results = model_wrapper.predict(images, conf=0.1, draw_boxes=False)
 
         for i, result in enumerate(results):
             # Extract predictions with confidence and class info
