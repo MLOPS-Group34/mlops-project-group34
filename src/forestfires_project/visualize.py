@@ -10,6 +10,7 @@ def draw_boxes(img, boxes, color=(0, 255, 0), label_names=None, is_pred=False):
     """Helper to draw boxes on image.
     boxes format: [x1, y1, x2, y2, class_id] (for GT)
                   [x1, y1, x2, y2, conf, class_id] (for Pred)
+    Note: color is in RGB format for matplotlib compatibility
     """
     img_copy = img.copy()
     for box in boxes:
@@ -20,6 +21,13 @@ def draw_boxes(img, boxes, color=(0, 255, 0), label_names=None, is_pred=False):
             x1, y1, x2, y2, cls = box
             label = f"{label_names[int(cls)]}"
 
+        # Draw rectangle and text in RGB color format
+        import matplotlib.patches as mpatches
+        from matplotlib.backends.backend_agg import FigureCanvasAgg
+        import numpy as np
+        
+        # For RGB images (matplotlib), we can draw directly with RGB colors
+        # Using a simple approach: overlay colored rectangles
         cv2.rectangle(img_copy, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
         cv2.putText(img_copy, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
     return img_copy
@@ -50,10 +58,15 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     # Convert class dict to list in correct order
     classes_dict = config["hyperparameters"]["classes"]
     class_names = [classes_dict[i] for i in sorted(classes_dict.keys())]
+    print(f"Classes: {class_names}")
 
     # Collect predictions for all images to find most confident ones
     print("Running inference on test set to find most confident predictions...")
     all_results = []
+    
+    # Debug counters
+    total_gt_boxes = 0
+    total_images_with_gt = 0
 
     for batch_idx, (images, gt_boxes_batch, img_paths) in enumerate(loader):
         # Convert tensor images to numpy for YOLO inference
@@ -77,11 +90,20 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
             # Calculate average confidence for this image
             avg_conf = pred_boxes[:, 4].mean() if len(pred_boxes) > 0 else 0.0
             max_conf = pred_boxes[:, 4].max() if len(pred_boxes) > 0 else 0.0
+            
+            # Validate ground truth boxes
+            gt_boxes = gt_boxes_batch[i]
+            if len(gt_boxes) > 0:
+                total_images_with_gt += 1
+                total_gt_boxes += len(gt_boxes)
+                # Verify GT box format: [x1, y1, x2, y2, cls]
+                if batch_idx == 0 and i == 0 and len(gt_boxes) > 0:
+                    print(f"[DEBUG] Sample GT box: {gt_boxes[0]} (format: [x1, y1, x2, y2, class_id])")
 
             all_results.append(
                 {
                     "image": images[i],
-                    "gt_boxes": gt_boxes_batch[i],
+                    "gt_boxes": gt_boxes,
                     "pred_boxes": pred_boxes,
                     "avg_conf": avg_conf,
                     "max_conf": max_conf,
@@ -94,6 +116,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     top_24 = all_results[:24]
 
     conf_scores = [f"{r['avg_conf']:.3f}" for r in top_24]
+    print(f"\nGround Truth Stats: {total_images_with_gt} images with GT, {total_gt_boxes} total GT boxes")
     print(f"Selected top 24 images with confidence scores: {conf_scores}")
 
     # Create 4 separate grid files (6 images each)
@@ -116,9 +139,9 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
                 result_data["image"], result_data["gt_boxes"], color=(0, 255, 0), label_names=class_names, is_pred=False
             )
 
-            # Draw predictions in Red on top of the GT image
+            # Draw predictions in Red (RGB format) on top of the GT image
             img_final = draw_boxes(
-                img_gt, result_data["pred_boxes"], color=(0, 0, 255), label_names=class_names, is_pred=True
+                img_gt, result_data["pred_boxes"], color=(255, 0, 0), label_names=class_names, is_pred=True
             )
 
             axes[i].imshow(img_final)
