@@ -473,8 +473,9 @@ Regarding performance, we did not perform extensive profiling of the core traini
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+We did manage to implement monitoring of our deployed model through FastAPI. Our monitoring system tracks key system metrics including CPU usage, memory consumption, and request latency. The API endpoints expose these metrics in real-time, allowing us to observe the health and performance of our deployed application.
 
---- question 26 fill here ---
+Additionally, we implemented test scripts within the API that enable users to run inference on specific images, validate predictions, and measure performance characteristics. This integrated testing capability allows us to continuously verify that the model is functioning correctly in the deployed environment without requiring external tools.
 
 ## Overall discussion of project
 
@@ -493,7 +494,7 @@ Regarding performance, we did not perform extensive profiling of the core traini
 >
 > Answer:
 
---- question 27 fill here ---
+We used credits for a value of 108kr on GCP and this was used solely to run the Virtual machines where we trained our model.
 
 ### Question 28
 
@@ -509,7 +510,7 @@ Regarding performance, we did not perform extensive profiling of the core traini
 >
 > Answer:
 
---- question 28 fill here ---
+Yes! We implemented a streamlit app, that you should always be able to access on group34mlops.streamlit.app, with a layout of main page and were you can actually run inference using our script and test in realtime, pretty cool:)
 
 ### Question 29
 
@@ -540,7 +541,9 @@ Regarding performance, we did not perform extensive profiling of the core traini
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest challenges in our project consisted of getting proper inference results. YOLO is a massive model, and we struggled a lot with validating whether our code actually worked since we couldn't get confident predictions on our test data. It was hard to tell if the issue was with our training setup, the dataset preprocessing, or just the model not converging properly.
+
+Integration with GCP was also pretty rough. We ran into quota issues trying to spin up GPU instances, which basically killed our ability to do any serious training in the cloud. The virtual data mounting pipeline using gcsfuse was another pain point—figuring out the right permissions and mount configurations took way longer than expected. But once we got it working, it actually saved us a ton of bandwidth and made the whole pipeline much cleaner.
 
 ### Question 31
 
