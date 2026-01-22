@@ -184,7 +184,7 @@ Additionally, we utilized the YOLOv5 open-source repository as our spatial detec
 >
 > Answer:
 
---- We have implemented a suite of1 core unit tests targeting the most critical components of our pipeline: data integrity and model functionality. We have three tests that ensures that our visualization, evaluation and training procedures work correctly. The 4 data tests validate our FireDataset class, ensuring correct PyTorch Dataset initialization, verifying that input images adhere to the required $(640, 640, 3)$ tensor shape, and confirming that label indices are within the valid $\{0, 1\}$ range for fire and smoke. The 3 model tests verify our ForestFireYOLO wrapper, ensuring the YOLOv8 initializes correctly via our configuration, weights can be loaded dynamically, and the prediction method returns the expected output formats when processing image data. These tests are integrated into our GitHub Actions matrix, running across multiple operating systems and Python versions to guarantee environment-agnostic reliability.---
+--- We have implemented a suite of1 core unit tests targeting the most critical components of our pipeline: data integrity and model functionality. We have three tests that ensures that our visualization, evaluation and training procedures work correctly. The 4 data tests validate our FireDataset class, ensuring correct PyTorch Dataset initialization, verifying that input images adhere to the required (640, 640, 3) tensor shape, and confirming that label indices are within the valid {0, 1} range for fire and smoke. The 3 model tests verify our ForestFireYOLO wrapper, ensuring the YOLOv8 initializes correctly via our configuration, weights can be loaded dynamically, and the prediction method returns the expected output formats when processing image data. These tests are integrated into our GitHub Actions matrix, running across multiple operating systems and Python versions to guarantee reliability.---
 
 ### Question 8
 
@@ -334,7 +334,10 @@ To automate our deployment, we set up a Google Cloud Build trigger linked to our
 >
 > Answer:
 
---- question 16 fill here ---
+--- When encountering bugs, our group primarily relied on the built-in debugger in VS Code, which allowed us to set breakpoints and inspect variables. This was helpful for troubleshooting the data-flow between our hybrid detection stages.
+Because we were working in a collaborative environment, we also leaned heavily on Weights & Biases (W&B) as a "remote debugger." If a training run failed on a team member's machine or in the cloud, we could all inspect the uploaded logs and system metrics in real-time to identify if the issue was a configuration error or a dataset pathing problem.
+
+Regarding performance, we did not perform extensive profiling of the core training logic. Since we were heavily dependent on the YOLOv8 framework, which is an highly optimized, pre-built open-source library, we assumed the underlying implementations were already refined for peak performance. However, we did monitor system resources via the Weights & Biases system metrics dashboard. ---
 
 ## Working in the cloud
 
@@ -555,4 +558,15 @@ To automate our deployment, we set up a Google Cloud Build trigger linked to our
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+---
+Student s223887 was responsible for the core repository structure and automation. This included initializing the project using the course cookiecutter template and setting up the uv environment, Ruff linting, and pre-commit hooks. They also managed the Docker containerization, DVC data versioning, and Google Cloud Build triggers. Furthermore, they implemented the GitHub Actions for CI (testing and coverage) and integrated Weights & Biases for experiment logging.
+
+Student s214374 focused on the machine learning lifecycle, specifically the model setup, training, validation, and testing phases. They ensured the YOLO framework was correctly integrated and performed the necessary evaluations. Additionally, they developed a Streamlit frontend application for model visualization and managed the configuration files for experiment control.
+
+Student s214422 was in charge of the deployment and data infrastructure. They developed and tested the API and managed the Google Cloud Platform resources, including the Storage Buckets and Compute Engine VMs. They also implemented the logic for mounting data directly from buckets using gcsfuse to optimize the training pipeline and avoid redundant downloads.
+
+Use of Generative AI: We utilized generative AI tools to assist in the development process. ChatGPT/Gemini/Claude was used to help draft documentation, improve our writing in the report and also as a coding assistant when writing scripts and running commands in the terminal. This was a major help to debug our code.
+
+
+
+ ---
