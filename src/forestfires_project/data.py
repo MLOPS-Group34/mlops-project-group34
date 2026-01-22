@@ -71,8 +71,8 @@ def sample_dataset(img_dir, label_dir, num_samples, random_seed=42):
         print(f"Warning: No images found in {img_dir}")
         return []
 
-    # Sample if needed
-    if num_samples is not None and num_samples < len(all_images):
+    # Sample if needed - validate num_samples is positive
+    if num_samples is not None and num_samples > 0 and num_samples < len(all_images):
         random.seed(random_seed)
         sampled_images = random.sample(all_images, num_samples)
         print(f"Sampled {num_samples} images from {len(all_images)} available in {os.path.basename(img_dir)}")
