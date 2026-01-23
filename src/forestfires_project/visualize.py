@@ -22,10 +22,7 @@ def draw_boxes(img, boxes, color=(0, 255, 0), label_names=None, is_pred=False):
             label = f"{label_names[int(cls)]}"
 
         # Draw rectangle and text in RGB color format
-        import matplotlib.patches as mpatches
-        from matplotlib.backends.backend_agg import FigureCanvasAgg
-        import numpy as np
-        
+
         # For RGB images (matplotlib), we can draw directly with RGB colors
         # Using a simple approach: overlay colored rectangles
         cv2.rectangle(img_copy, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
@@ -63,7 +60,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
     # Collect predictions for all images to find most confident ones
     print("Running inference on test set to find most confident predictions...")
     all_results = []
-    
+
     # Debug counters
     total_gt_boxes = 0
     total_images_with_gt = 0
@@ -90,7 +87,7 @@ def run_visualization(config_path="configs/config.yaml", model_path=None):
             # Calculate average confidence for this image
             avg_conf = pred_boxes[:, 4].mean() if len(pred_boxes) > 0 else 0.0
             max_conf = pred_boxes[:, 4].max() if len(pred_boxes) > 0 else 0.0
-            
+
             # Validate ground truth boxes
             gt_boxes = gt_boxes_batch[i]
             if len(gt_boxes) > 0:
