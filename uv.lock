@@ -5265,7 +5265,7 @@ wheels = [
 
 [[package]]
 name = "weave"
-version = "0.52.24"
+version = "0.52.25"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -5280,9 +5280,9 @@ dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
     { name = "wandb" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/37/a9/479a4ebd918bf8d08ea1d8daf1a40ace4c6940f86472700036436c6acc78/weave-0.52.24.tar.gz", hash = "sha256:1d756c4b35054d8efba0300eb2a595f9c63d96601f1a3f37918e620742c13481", size = 650113, upload-time = "2026-01-15T20:46:41.771Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/de/c1/3650fd0c1ebbe1bb7cfd4ae549de477def97b29c4632a0aacb8e76c5b632/weave-0.52.25.tar.gz", hash = "sha256:7e1260f5cd7eff0b97e5008ef191e68a5b7b611c07aeea8bc81626f10ee1bab8", size = 657154, upload-time = "2026-01-20T20:12:18.263Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c4/b1/b900fb5e81bbb143ef69ea49b2a2024357f6423511b24d14ab65dbe80272/weave-0.52.24-py3-none-any.whl", hash = "sha256:afe79bb5326aaf22751f2bae20878354062794c3577ab7a28c67512b784d8992", size = 813312, upload-time = "2026-01-15T20:46:39.725Z" },
+    { url = "https://files.pythonhosted.org/packages/af/11/02d464838a6fa66228ae5ad4d29d68a9661675a0c787e53d1cd691a5067d/weave-0.52.25-py3-none-any.whl", hash = "sha256:5d0a302059ae507df8d3fd4e39f61a5236612b18272456065056f859bd2be1ee", size = 822409, upload-time = "2026-01-20T20:12:16.356Z" },
 ]
 
 [[package]]
