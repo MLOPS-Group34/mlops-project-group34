@@ -578,6 +578,8 @@ Student s223887 was responsible for the core repository structure and automation
 
 Student s214374 focused on the machine learning lifecycle, specifically the model setup, training, validation, and testing phases. They ensured the YOLO framework was correctly integrated and performed the necessary evaluations. Additionally, they developed a Streamlit frontend application for model visualization and managed the configuration files for experiment control.
 
+Student s214698 played a key role in the early stages of the project, contributing to concept development and the investigation and selection of the project use case and dataset. The student conducted initial local model training and worked on integrating Docker and sample test data to support testing of the pipeline. Additionally, the student explored code profiling to analyze performance and potential parallelization opportunities; however, this investigation did not ultimately contribute improvements to the final project and was therefore not submitted.
+
 Student s214422 was in charge of the deployment and data infrastructure. They developed and tested the API and managed the Google Cloud Platform resources, including the Storage Buckets and Compute Engine VMs. They also implemented the logic for mounting data directly from buckets using gcsfuse to optimize the training pipeline and avoid redundant downloads.
 
 Use of Generative AI: We utilized generative AI tools to assist in the development process. ChatGPT/Gemini/Claude was used to help draft documentation, improve our writing in the report and also as a coding assistant when writing scripts and running commands in the terminal. This was a major help to debug our code.
